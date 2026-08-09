@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64" fill="none" role="img" aria-label="Logo ResonLab">
+  <defs>
+    <linearGradient id="fond" x1="0" y1="0" x2="64" y2="64" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#1BE7B6"/>
+      <stop offset=".5" stop-color="#FFB648"/>
+      <stop offset="1" stop-color="#8B5CF6"/>
+    </linearGradient>
+  </defs>
+
+  <rect x="2" y="2" width="60" height="60" rx="16" fill="url(#fond)"/>
+
+  <!-- Arche : la maison qui abrite. C'est aussi la panse du Ω. -->
+  <path d="M17 45c-3-6-3-13 1.5-18S30 20 32 20s9 2 13.5 7 4.5 12 1.5 18"
+        stroke="#062B33" stroke-width="4.6" stroke-linecap="round" stroke-linejoin="round"/>
+
+  <!-- Trois produits abrites sous l'arche. -->
+  <circle cx="23" cy="42" r="3.1" fill="#062B33"/>
+  <circle cx="32" cy="42" r="3.1" fill="#062B33"/>
+  <circle cx="41" cy="42" r="3.1" fill="#062B33"/>
+
+  <!-- Signature de famille : les noeuds de circuit. -->
+  <circle cx="12" cy="20" r="2.6" fill="#062B33"/>
+  <path d="M12 20h6" stroke="#062B33" stroke-width="2.4" stroke-linecap="round"/>
+  <circle cx="52" cy="20" r="2.6" fill="#062B33"/>
+  <path d="M52 20h-6" stroke="#062B33" stroke-width="2.4" stroke-linecap="round"/>
+</svg>

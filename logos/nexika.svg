@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64" fill="none" role="img" aria-label="Logo Nexika">
+  <defs>
+    <linearGradient id="fond-nexika" x1="0" y1="0" x2="64" y2="64" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#7FB2FF"/>
+      <stop offset="1" stop-color="#2B3A8F"/>
+    </linearGradient>
+  </defs>
+
+  <rect x="2" y="2" width="60" height="60" rx="16" fill="url(#fond-nexika)"/>
+
+  <!-- Les trois liaisons partent du centre : c'est tout ce que fait un serveur
+       multi-postes, relier des postes a une seule verite. -->
+  <path d="M32 32 19 45M32 32l13 13M32 32V16" stroke="#0C1330" stroke-width="4.2" stroke-linecap="round"/>
+
+  <!-- Le centre : la ou vivent les donnees, en plein, plus gros que le reste. -->
+  <circle cx="32" cy="32" r="6.4" fill="#0C1330"/>
+
+  <!-- Les trois postes, evides : ils consultent, ils ne detiennent pas. -->
+  <circle cx="32" cy="14" r="4" fill="url(#fond-nexika)" stroke="#0C1330" stroke-width="3.6"/>
+  <circle cx="17" cy="47" r="4" fill="url(#fond-nexika)" stroke="#0C1330" stroke-width="3.6"/>
+  <circle cx="47" cy="47" r="4" fill="url(#fond-nexika)" stroke="#0C1330" stroke-width="3.6"/>
+
+  <!-- Signature de famille : les noeuds de circuit. -->
+  <circle cx="12" cy="20" r="2.6" fill="#0C1330"/>
+  <path d="M12 20h5" stroke="#0C1330" stroke-width="2.4" stroke-linecap="round"/>
+  <circle cx="52" cy="20" r="2.6" fill="#0C1330"/>
+  <path d="M52 20h-5" stroke="#0C1330" stroke-width="2.4" stroke-linecap="round"/>
+</svg>

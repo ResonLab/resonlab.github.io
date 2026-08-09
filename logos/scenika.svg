@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64" fill="none" role="img" aria-label="Logo Scenika">
+  <defs>
+    <linearGradient id="fond-scenika" x1="0" y1="0" x2="64" y2="64" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FFC961"/>
+      <stop offset="1" stop-color="#F2751A"/>
+    </linearGradient>
+  </defs>
+
+  <rect x="2" y="2" width="60" height="60" rx="16" fill="url(#fond-scenika)"/>
+
+  <!-- Le faisceau d'un projecteur qui descend sur le plateau. -->
+  <path d="M27 21h10l9 22H18z" stroke="#3D1B02" stroke-width="4.2" stroke-linejoin="round"/>
+
+  <!-- La lentille, au-dessus du faisceau. -->
+  <path d="M26 18h12" stroke="#3D1B02" stroke-width="4.4" stroke-linecap="round"/>
+
+  <!-- Le plateau : la ligne sur laquelle la lumiere tombe. -->
+  <path d="M14 50h36" stroke="#3D1B02" stroke-width="4.4" stroke-linecap="round"/>
+
+  <!-- Signature de famille : les noeuds de circuit. -->
+  <circle cx="12" cy="20" r="2.6" fill="#3D1B02"/>
+  <path d="M12 20h5" stroke="#3D1B02" stroke-width="2.4" stroke-linecap="round"/>
+  <circle cx="52" cy="20" r="2.6" fill="#3D1B02"/>
+  <path d="M52 20h-5" stroke="#3D1B02" stroke-width="2.4" stroke-linecap="round"/>
+</svg>

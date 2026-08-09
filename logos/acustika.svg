@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64" fill="none" role="img" aria-label="Logo Acustika">
+  <defs>
+    <linearGradient id="fond-acustika" x1="0" y1="0" x2="64" y2="64" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#B58CFF"/>
+      <stop offset="1" stop-color="#6D4AE0"/>
+    </linearGradient>
+  </defs>
+
+  <rect x="2" y="2" width="60" height="60" rx="16" fill="url(#fond-acustika)"/>
+
+  <!-- La source : l'enceinte, vue de cote. -->
+  <path d="M18 26v12" stroke="#1B0B3D" stroke-width="4.6" stroke-linecap="round"/>
+  <path d="M18 27l7-5v20l-7-5" stroke="#1B0B3D" stroke-width="4.2" stroke-linejoin="round"/>
+
+  <!-- Le front d'onde qui se propage : trois arcs, de plus en plus larges. -->
+  <path d="M31 25c3.5 4 3.5 10 0 14" stroke="#1B0B3D" stroke-width="3.8" stroke-linecap="round"/>
+  <path d="M38 20c6 7 6 17 0 24" stroke="#1B0B3D" stroke-width="3.8" stroke-linecap="round"/>
+  <path d="M45 15c8.5 10 8.5 24 0 34" stroke="#1B0B3D" stroke-width="3.8" stroke-linecap="round"/>
+
+  <!-- Signature de famille : les noeuds de circuit. -->
+  <circle cx="12" cy="16" r="2.4" fill="#1B0B3D"/>
+  <path d="M12 16h4" stroke="#1B0B3D" stroke-width="2.2" stroke-linecap="round"/>
+</svg>
