@@ -20,56 +20,82 @@ import { dirname, join, resolve } from 'node:path'
 const RACINE = resolve(dirname(fileURLToPath(import.meta.url)))
 const DOCS = RACINE
 
+/**
+ * Lit une page en normalisant les fins de ligne.
+ *
+ * Sans cela, la suite passe en local et échoue sur un runner Windows, qui
+ * extrait les fichiers en CRLF : elle n'annonce pas une erreur mais un
+ * comptage faux. Leçon déjà payée ailleurs dans la maison.
+ */
+const lireNormalise = (relatif) =>
+  readFileSync(join(RACINE, relatif), 'utf-8').replaceAll('\r\n', '\n')
+
 let echecs = 0
 const echec = (message) => {
   console.log(`  ÉCHEC : ${message}`)
   echecs += 1
 }
 
-/* ── 1. Les deux langues ont la même structure ───────────────────────────── */
+/* ── 1. Chaque page a sa jumelle, et elles se ressemblent ────────────────── */
 
-const fr = readFileSync(join(DOCS, 'index.html'), 'utf-8')
-const cheminEn = join(DOCS, 'en/index.html')
+/**
+ * Les paires de pages, française et anglaise.
+ *
+ * Ce contrôle ne portait que sur l'accueil, et c'était un piège : les pages
+ * ajoutées ensuite — la feuille de route, les conditions — pouvaient diverger
+ * sans que rien ne le signale, alors que la suite continuait d'afficher
+ * « deux langues alignées ». Une vérification qui ne regarde qu'une partie de
+ * ce qu'elle prétend couvrir est pire qu'une absence de vérification.
+ */
+const PAIRES = [
+  ['index.html', 'en/index.html'],
+  ['suite.html', 'en/roadmap.html'],
+  ['conditions.html', 'en/terms.html']
+]
 
-if (!existsSync(cheminEn)) {
-  echec('en/index.html est absent')
-} else {
-  const en = readFileSync(cheminEn, 'utf-8')
+for (const [cheminFr, cheminEn] of PAIRES) {
+  if (!existsSync(join(DOCS, cheminEn))) {
+    echec(`${cheminEn} est absent`)
+    continue
+  }
+
+  const fr = lireNormalise(cheminFr)
+  const en = lireNormalise(cheminEn)
 
   const compter = (html, motif) => (html.match(motif) ?? []).length
   const structures = [
-    ['sections', /<section\b/g],
+    ['sections', /<section/g],
     ['cartes', /class="card reveal/g],
     ['applications', /class="app reveal/g],
     ['titres de section', /<h2 class="titre/g],
     ['titres de carte', /<h3>/g],
-    ['boutons', /class="btn\b/g]
+    ['boutons', /class="btn/g],
+    ['paragraphes d’introduction', /class="intro reveal/g]
   ]
   for (const [nom, motif] of structures) {
     const a = compter(fr, motif)
     const b = compter(en, motif)
-    if (a !== b) echec(`${nom} : ${a} en français, ${b} en anglais`)
+    if (a !== b) echec(`${cheminFr} → ${cheminEn} · ${nom} : ${a} en français, ${b} en anglais`)
   }
 
   // Le CSS et le JavaScript doivent rester identiques : la version anglaise
-  // est fabriquée par substitution de texte, elle n'a aucune raison d'avoir
-  // sa propre mise en forme. Si les deux divergent, c'est qu'on a édité la
-  // page traduite à la main — et la prochaine génération l'écrasera.
+  // est fabriquée par substitution de texte, elle n'a aucune raison d'avoir sa
+  // propre mise en forme. S'ils diffèrent, c'est qu'on a édité la page traduite
+  // à la main — et la prochaine génération l'écrasera.
   const style = (html) => html.slice(html.indexOf('<style>'), html.indexOf('</style>'))
   if (style(fr) !== style(en)) {
-    echec("le CSS des deux langues diffère — la page anglaise a été éditée à la main")
+    echec(`${cheminEn} : le CSS diffère du français — page éditée à la main`)
   }
 
-  if (!/<html lang="en">/.test(en)) echec('en/index.html ne déclare pas lang="en"')
+  if (!/<html lang="en">/.test(en)) echec(`${cheminEn} ne déclare pas lang="en"`)
 
   // Un mot français resté dans la page anglaise est le symptôme le plus
-  // fréquent d'une substitution oubliée. On ne cherche pas tous les mots :
-  // quelques-uns, très fréquents, suffisent à révéler l'oubli.
+  // fréquent d'une substitution oubliée.
   const corps = en.slice(en.indexOf('<body'))
   const sansCommentaires = corps.replace(/\/\*[\s\S]*?\*\//g, '').replace(/^\s*\/\/.*$/gm, '')
-  for (const mot of [' Nos principes', 'Logiciels libres', 'Découvrir<', 'restent chez vous', 'Valais, Suisse']) {
+  for (const mot of [' Nos principes', 'Logiciels libres', 'Découvrir<', 'Valais, Suisse', 'La suite<']) {
     if (sansCommentaires.includes(mot)) {
-      echec(`texte français resté dans la page anglaise : « ${mot.trim()} »`)
+      echec(`${cheminEn} : texte français resté — « ${mot.trim()} »`)
     }
   }
 }

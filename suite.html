@@ -1,13 +1,13 @@
 <!doctype html>
-<html lang="en">
+<html lang="fr">
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>ResonLab — tools that stay on your machine</title>
-<meta name="description" content="ResonLab builds three applications for freelancers and small teams: Ohmnia (business management), Scenika (audio and lighting), Acustika (acoustics). Your data stays on your computer." />
-<link rel="icon" href="../logos/resonlab.svg" type="image/svg+xml" />
+<title>ResonLab — la suite</title>
+<meta name="description" content="Ce qui est fait, ce qui est en cours, et ce qui ne se fera pas. La feuille de route de ResonLab." />
+<link rel="icon" href="logos/resonlab.svg" type="image/svg+xml" />
 <meta property="og:title" content="ResonLab" />
-<meta property="og:description" content="Three applications for freelancers and small teams. Your data stays with you." />
+<meta property="og:description" content="Ce qui est fait, ce qui est en cours, et ce qui ne se fera pas. La feuille de route de ResonLab." />
 <meta property="og:type" content="website" />
 
 <script>
@@ -287,17 +287,17 @@
 <header id="entete">
   <div class="wrap bar">
     <a class="brand" href="./">
-      <img src="../logos/resonlab.svg" alt="" width="30" height="30" />
+      <img src="logos/resonlab.svg" alt="" width="30" height="30" />
       <span class="nom">ResonLab</span>
     </a>
     <nav class="nav">
-      <a href="#applications">Applications</a>
-      <a href="#multipostes" class="hide-sm">Multi-workstation</a>
-      <a href="#principes" class="hide-sm">Our principles</a>
-      <a href="roadmap.html" class="hide-sm">Roadmap</a>
+      <a href="index.html#applications">Applications</a>
+      <a href="index.html#multipostes" class="hide-sm">Multi-postes</a>
+      <a href="index.html#principes" class="hide-sm">Nos principes</a>
+      <a href="suite.html" class="hide-sm">La suite</a>
       <a href="https://github.com/ResonLab">GitHub</a>
-      <a href="../" class="langue" hreflang="fr">FR</a>
-      <button class="theme" id="theme" type="button" aria-label="Switch theme">
+      <a href="en/" class="langue" hreflang="en">EN</a>
+      <button class="theme" id="theme" type="button" aria-label="Changer le thème">
         <svg class="i-sombre" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
           <path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/>
         </svg>
@@ -312,145 +312,135 @@
 
 <main>
   <section class="hero wrap">
-    <h1>Tools that <span class="grad-text">stay with you</span>.</h1>
+    <p class="etat-ligne">MIS À JOUR LE 10 AOÛT 2026</p>
+    <h1>La <span class="grad-text">suite</span>.</h1>
     <p class="chapo">
-      Three applications for freelancers and small teams. No account, no subscription, no server:
-      your invoices and your projects never leave your computer.
+      Ce qui est fait, ce qui est en cours, et ce qui ne se fera pas. Une feuille de route qui
+      n'annonce que ce qui existe déjà ne sert à rien ; une qui promet tout non plus.
     </p>
-    <div class="actions">
-      <a class="btn" href="#applications">See the applications</a>
-      <a class="btn btn-ghost" href="#principes">What we stand for</a>
-    </div>
   </section>
 
-  <section id="applications" class="wrap">
-    <h2 class="titre reveal">Three trades, three applications</h2>
+  <section id="fait" class="wrap">
+    <h2 class="titre reveal">Ce qui est fait</h2>
     <p class="intro reveal" style="--d:.06s">
-      A freelancer sending invoices, an audio and lighting technician, an acoustician. Three
-      different audiences — so three applications, not one monster that claims to do everything.
+      Livré, éprouvé par des vérifications automatiques, et téléchargeable.
     </p>
 
-    <div class="apps">
-      <article class="app reveal" style="--g:linear-gradient(120deg,#1BE7B6,#0E9CD9); --accent:#1BE7B6; --bord:rgba(27,231,182,.38); --ombre:rgba(14,156,217,.75)">
-        <img class="logo" src="../logos/ohmnia.svg" alt="Ohmnia logo" width="46" height="46" />
-        <h3>Ohmnia</h3>
-        <span class="etat">RELEASED — 0.1.3</span>
-        <p>Running a one-person business without the bloat: invoices, quotes, time tracking, inventory, simplified accounting.</p>
-        <ul>
-          <li>A quote becomes an invoice in one click</li>
-          <li>Payment reminders and an accounting journal</li>
-          <li>Bank statement import (CSV, CAMT.053)</li>
-          <li>Switzerland, France, Belgium, Luxembourg, Germany</li>
-        </ul>
-        <div class="actions">
-          <a class="btn" style="--g:linear-gradient(120deg,#1BE7B6,#0E9CD9)" href="https://resonlab.github.io/ohmnia/en/">Discover</a>
-          <a class="btn btn-ghost" href="https://github.com/ResonLab/ohmnia">Code</a>
-        </div>
-      </article>
-
-      <article class="app reveal" style="--d:.09s; --g:linear-gradient(120deg,#FFC961,#F2751A); --accent:#FFC961; --bord:rgba(255,201,97,.38); --ombre:rgba(242,117,26,.7)">
-        <img class="logo" src="../logos/scenika.svg" alt="Scenika logo" width="46" height="46" />
-        <h3>Scenika</h3>
-        <span class="etat">PUBLIÉ — 0.1.0</span>
-        <p>The audio and lighting inventory of a rental company or a technician: what you own, what is out, what it draws.</p>
-        <ul>
-          <li>Inventory and rentals</li>
-          <li>Power calculation per circuit</li>
-          <li>DMX addressing tied to the real inventory</li>
-        </ul>
-        <div class="actions">
-          <a class="btn" style="--g:linear-gradient(120deg,#FFC961,#F2751A)" href="https://resonlab.github.io/scenika/en/">Discover</a>
-          <a class="btn btn-ghost" href="https://github.com/ResonLab/scenika">Code</a>
-        </div>
-      </article>
-
-      <article class="app reveal" style="--d:.18s; --g:linear-gradient(120deg,#B58CFF,#6D4AE0); --accent:#B58CFF; --bord:rgba(181,140,255,.38); --ombre:rgba(109,74,224,.75)">
-        <img class="logo" src="../logos/acustika.svg" alt="Acustika logo" width="46" height="46" />
-        <h3>Acustika</h3>
-        <span class="etat">PUBLIÉ — 0.1.0</span>
-        <p>Loudspeaker coverage in a room, computed and displayed. And above all: <em>where</em> to put the boxes, not just a map you have to know how to read.</p>
-        <ul>
-          <li>Freely drawn zones, raked seating and slopes</li>
-          <li>Loudspeaker library, directivity per band</li>
-          <li>Open formats — never a closed one</li>
-        </ul>
-        <div class="actions">
-          <a class="btn" style="--g:linear-gradient(120deg,#B58CFF,#6D4AE0)" href="https://resonlab.github.io/acustika/en/">Discover</a>
-          <a class="btn btn-ghost" href="https://github.com/ResonLab/acustika">Code</a>
-        </div>
-      </article>
-
-      <article class="app reveal" style="--d:.27s; --g:linear-gradient(120deg,#7FB2FF,#2B3A8F); --accent:#7FB2FF; --bord:rgba(127,178,255,.38); --ombre:rgba(43,58,143,.8)">
-        <img class="logo" src="../logos/nexika.svg" alt="Nexika logo" width="46" height="46" />
-        <h3>Nexika</h3>
-        <span class="etat">THE FOUNDATION — WRITTEN</span>
-        <p>Several people, the same data. The multi-workstation server installs <strong>on your own premises</strong>, on an ordinary machine — not in the cloud.</p>
-        <ul>
-          <li>Accounts and rights: read, write, administer</li>
-          <li>One server for both Ohmnia and Scenika</li>
-          <li>Refuses the network without encryption, and without an administrator</li>
-          <li>One file to copy, no installation</li>
-        </ul>
-        <div class="actions">
-          <a class="btn" style="--g:linear-gradient(120deg,#7FB2FF,#2B3A8F)" href="#multipostes">How it works</a>
-          <a class="btn btn-ghost" href="https://github.com/ResonLab/nexika">Code</a>
-        </div>
-      </article>
+    <div class="cards">
+      <div class="card reveal">
+        <span class="num">OHMNIA</span>
+        <h3>La gestion, et le multi-postes</h3>
+        <p>Factures, devis, suivi du temps, journal, inventaire, comptabilité simplifiée, import de
+        relevés bancaires. Et depuis la 0.1.3, le mode multi-postes.</p>
+      </div>
+      <div class="card reveal" style="--d:.06s">
+        <span class="num">SCENIKA</span>
+        <h3>Parc, locations, puissance, DMX</h3>
+        <p>Le parc matériel, les locations avec ce qui n'est pas revenu, la répartition de puissance
+        par circuit, et le calculateur DMX relié au parc réel.</p>
+      </div>
+      <div class="card reveal" style="--d:.12s">
+        <span class="num">ACUSTIKA</span>
+        <h3>La couverture, et le conseil</h3>
+        <p>Zones dessinées librement, pentes, bibliothèque d'enceintes, carte de couverture, vue en
+        coupe, retards d'alignement — et le conseil de placement, qui explique pourquoi.</p>
+      </div>
+      <div class="card reveal" style="--d:.18s">
+        <span class="num">NEXIKA</span>
+        <h3>Le serveur, en une commande</h3>
+        <p>Comptes, droits, chiffrement, certificat fabriqué tout seul. Il sert Ohmnia
+        <strong>et</strong> Scenika. Sa mise en service tient en une commande.</p>
+      </div>
+      <div class="card reveal" style="--d:.24s">
+        <span class="num">PARTOUT</span>
+        <h3>Français et anglais</h3>
+        <p>Les cinq sites, et les applications Scenika et Acustika en entier. Ohmnia est en cours,
+        écran par écran.</p>
+      </div>
+      <div class="card reveal" style="--d:.30s">
+        <span class="num">PARTOUT</span>
+        <h3>Windows et Linux</h3>
+        <p>Installateur <code>.exe</code>, AppImage et paquet <code>.deb</code> pour les trois
+        applications, construits automatiquement.</p>
+      </div>
     </div>
   </section>
 
-  <section id="multipostes" class="bande">
+  <section id="encours" class="bande">
     <div class="wrap">
-      <h2 class="titre reveal">Together, without the cloud</h2>
+      <h2 class="titre reveal">Ce qui est en cours</h2>
       <p class="intro reveal" style="--d:.06s">
-        A company with two or three workstations wants to work on the same data. It is the only case
-        where our software accepts a network — and the server stays on your premises.
+        Commencé, utilisable, et pas terminé. Nous préférons le dire que laisser croire le contraire.
       </p>
 
       <div class="cards">
         <div class="card reveal">
-          <span class="num">YOUR PREMISES</span>
-          <h3>An ordinary machine is enough</h3>
-          <p>Nexika is one file to copy onto a PC or a NAS, started by a command. No installation, no
-          subscription, no data leaving your walls.</p>
+          <span class="num">OHMNIA</span>
+          <h3>La traduction anglaise</h3>
+          <p>La navigation, l'accueil, l'inventaire, les clients et les documents imprimés sont
+          traduits. Les autres écrans restent en français.</p>
         </div>
         <div class="card reveal" style="--d:.06s">
-          <span class="num">A CHOICE</span>
-          <h3>Local mode stays the default</h3>
-          <p>Without a deliberate step on your part, the software runs offline as before.
-          Multi-workstation is chosen; it never arrives on its own.</p>
+          <span class="num">SCENIKA</span>
+          <h3>La consultation mobile</h3>
+          <p>Un inventaire se consulte debout dans un dépôt, un téléphone à la main. Ce sera une page
+          servie par Nexika, sur le réseau local — le serveur tourne maintenant.</p>
         </div>
         <div class="card reveal" style="--d:.12s">
-          <span class="num">WHO DOES WHAT</span>
-          <h3>Three roles, not thirty</h3>
-          <p>Read to consult, write for day-to-day work, administer for what commits the company. Every
-          operation has its right, written by hand.</p>
-        </div>
-        <div class="card reveal" style="--d:.18s">
-          <span class="num">WHAT IT REFUSES</span>
-          <h3>Refusals we stand behind</h3>
-          <p>It does not listen on the network without encryption, nor while no administrator exists,
-          nor to an operation whose right is not declared. It builds its own certificate.</p>
+          <span class="num">ACUSTIKA</span>
+          <h3>Les données d'enceintes</h3>
+          <p>L'import de données polaires en texte existe et déduit l'ouverture par bande. Le format
+          <strong>CLF</strong> reste visé — voir plus bas pourquoi il n'est pas encore lu.</p>
         </div>
       </div>
     </div>
   </section>
 
-  <section id="principes">
-    <div class="wrap">
-      <h2 class="titre reveal">What we stand for</h2>
-      <p class="intro reveal" style="--d:.06s">
-        These rules apply to all three applications, without exception. They are not sales points:
-        each one has an automated check that fails if the code drifts away from it.
-      </p>
+  <section id="jamais" class="wrap">
+    <h2 class="titre reveal">Ce qui ne se fera pas</h2>
+    <p class="intro reveal" style="--d:.06s">
+      Une feuille de route honnête dit aussi ce qu'elle refuse. Chacun de ces points a été pesé, et
+      chacun est refusé pour une raison, pas par manque de temps.
+    </p>
 
-      <div class="cards">
-        <div class="card reveal"><span class="num">01</span><h3>No connection</h3><p>No account, no server, no usage tracking. Your invoices and your projects never leave your machine.</p></div>
-        <div class="card reveal" style="--d:.06s"><span class="num">02</span><h3>One exception, and you choose it</h3><p>Multi-workstation mode, for a company with several people. It stays an explicit choice, never a default — and the server installs on your premises.</p></div>
-        <div class="card reveal" style="--d:.12s"><span class="num">03</span><h3>Messages that explain</h3><p>Precise, never a raw technical error. When the software refuses something, it says why.</p></div>
-        <div class="card reveal" style="--d:.18s"><span class="num">04</span><h3>Nothing you cannot reopen</h3><p>Readable formats, simple code, no closed format. In ten years your data will still open.</p></div>
-        <div class="card reveal" style="--d:.24s"><span class="num">05</span><h3>What is not guaranteed is said</h3><p>Software does not make you compliant, and replaces neither an accountant nor an acoustician. What is indicative is announced as such.</p></div>
-        <div class="card reveal" style="--d:.30s"><span class="num">06</span><h3>Checked, not claimed</h3><p>A failing automated check beats a lying document. It is the rule that holds all the others up.</p></div>
+    <div class="cards">
+      <div class="card reveal">
+        <span class="num">JAMAIS</span>
+        <h3>Le cloud</h3>
+        <p>Vos données ne partiront pas sur nos serveurs, parce que nous n'en avons pas. Le
+        multi-postes s'installe chez vous, sur votre machine.</p>
+      </div>
+      <div class="card reveal" style="--d:.06s">
+        <span class="num">JAMAIS</span>
+        <h3>L'abonnement</h3>
+        <p>Un logiciel qui cesse de fonctionner quand on arrête de payer est un logiciel qu'on ne
+        possède pas. Le code est sous licence MIT.</p>
+      </div>
+      <div class="card reveal" style="--d:.12s">
+        <span class="num">PAS COMME ÇA</span>
+        <h3>Le format CLF, tant qu'il est deviné</h3>
+        <p>CLF est un format binaire dont la structure n'est pas publique. Un lecteur qui devinerait
+        produirait des directivités fausses — donc des <strong>placements faux avec l'aplomb des
+        vrais</strong>. Le texte s'importe déjà.</p>
+      </div>
+      <div class="card reveal" style="--d:.18s">
+        <span class="num">PAS ICI</span>
+        <h3>Une facturation dans Scenika</h3>
+        <p>Une location se facture, mais refaire un module de facturation voudrait dire tenir deux
+        fois les règles de TVA et de numérotation. Scenika prépare les lignes, Ohmnia facture.</p>
+      </div>
+      <div class="card reveal" style="--d:.24s">
+        <span class="num">PAS DE SERVEUR</span>
+        <h3>Acustika en multi-postes</h3>
+        <p>Elle travaille sur des fichiers de projet, pas sur des données d'entreprise partagées.
+        Deux personnes ne modifient pas une simulation en même temps.</p>
+      </div>
+      <div class="card reveal" style="--d:.30s">
+        <span class="num">PAS PROMIS</span>
+        <h3>« Comme EASE »</h3>
+        <p>Ni lancer de rayons, ni réverbération, ni intelligibilité prédite. Ce sont des décennies
+        de travail par des équipes d'acousticiens. Promettre cela reviendrait à livrer des cartes
+        fausses avec l'aplomb des vraies.</p>
       </div>
     </div>
   </section>
@@ -459,18 +449,18 @@
 <footer>
   <div class="wrap">
     <div class="famille">
-      <img src="../logos/ohmnia.svg" alt="Ohmnia" width="28" height="28" />
-      <img src="../logos/scenika.svg" alt="Scenika" width="28" height="28" />
-      <img src="../logos/acustika.svg" alt="Acustika" width="28" height="28" />
-      <img src="../logos/nexika.svg" alt="Nexika" width="28" height="28" />
+      <img src="logos/ohmnia.svg" alt="Ohmnia" width="28" height="28" />
+      <img src="logos/scenika.svg" alt="Scenika" width="28" height="28" />
+      <img src="logos/acustika.svg" alt="Acustika" width="28" height="28" />
+      <img src="logos/nexika.svg" alt="Nexika" width="28" height="28" />
     </div>
-    <p><strong>ResonLab</strong> — Valais, Switzerland.</p>
+    <p><strong>ResonLab</strong> — Valais, Suisse.</p>
     <p><a href="mailto:resonlab@proton.me">resonlab@proton.me</a> · <a href="https://github.com/ResonLab">github.com/ResonLab</a></p>
     <p>
-      <a href="terms.html">Terms of use</a> &middot;
-      <a href="roadmap.html">Roadmap</a>
+      <a href="conditions.html">Conditions d'utilisation</a> ·
+      <a href="suite.html">La suite</a>
     </p>
-    <p>Free software, MIT licensed.</p>
+    <p>Logiciels libres, sous licence MIT.</p>
   </div>
 </footer>
 
