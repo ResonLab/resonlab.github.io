@@ -93,9 +93,36 @@ for (const [cheminFr, cheminEn] of PAIRES) {
   // fréquent d'une substitution oubliée.
   const corps = en.slice(en.indexOf('<body'))
   const sansCommentaires = corps.replace(/\/\*[\s\S]*?\*\//g, '').replace(/^\s*\/\/.*$/gm, '')
-  for (const mot of [' Nos principes', 'Logiciels libres', 'Découvrir<', 'Valais, Suisse', 'La suite<']) {
+  for (const mot of [' Nos principes', 'Logiciels libres', 'Découvrir<', 'Valais, Suisse', 'La suite<', 'PUBLIÉ<']) {
     if (sansCommentaires.includes(mot)) {
       echec(`${cheminEn} : texte français resté — « ${mot.trim()} »`)
+    }
+  }
+}
+
+/* ── 1 bis. Aucun numéro de version écrit à la main ──────────────────────── */
+
+// **Cette page annonçait « PUBLIÉ — 0.1.0 » le jour où la 0.2.0 est sortie**,
+// dans les deux langues, et rien ne pouvait le voir : un numéro de version
+// recopié à la main dans une page vit loin de ce qui le fait changer, et il ne
+// change donc jamais. C'est de la documentation qui ment, et la maison préfère
+// une vérification qui échoue.
+//
+// La réponse n'est pas de mieux se souvenir : c'est de ne plus l'écrire. Le
+// badge dit qu'une application est publiée, les boutons visent
+// `releases/latest`, et **la page des releases est seule à porter le numéro** —
+// elle, elle est produite par le workflow qui construit la version.
+//
+// Ce contrôle interdit de le réintroduire. Sans lui, la prochaine main qui
+// trouve le badge un peu sec y remettra un numéro, et il pourrira pareil.
+for (const chemin of ['index.html', 'en/index.html']) {
+  const html = lireNormalise(chemin)
+  for (const [, badge] of html.matchAll(/<span class="etat">([^<]*)<\/span>/g)) {
+    if (/\d+\.\d+\.\d+/.test(badge)) {
+      echec(
+        `${chemin} : le badge « ${badge.trim()} » porte un numéro de version écrit ` +
+          `à la main — il périmera sans que rien ne le signale. La page des releases le porte déjà.`
+      )
     }
   }
 }
