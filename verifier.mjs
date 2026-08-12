@@ -36,6 +36,42 @@ const echec = (message) => {
   echecs += 1
 }
 
+/* ── 0. Aucun caractère de contrôle dans ce fichier ──────────────────────── */
+
+/**
+ * **Un caractère invisible a déjà tué deux contrôles de ce fichier.**
+ *
+ * Les motifs `sections` et `boutons` s'écrivaient `/<section\b/g` — sauf que le
+ * fichier contenait un vrai octet 0x08, le retour arrière, à la place de la
+ * séquence `\b`. Le motif cherchait donc « <section suivi d'un retour arrière »,
+ * ce qu'aucune page ne contiendra jamais. Les deux comptages rendaient zéro des
+ * deux côtés, donc toujours égaux : **la vérification affichait OK sans
+ * regarder quoi que ce soit**, et sur toutes les pages, depuis toujours.
+ *
+ * Trouvé en ajoutant une section d'un seul côté et en constatant que rien
+ * n'échouait. Aucune relecture ne pouvait le voir : le caractère ne s'affiche
+ * pas.
+ *
+ * Ce contrôle-ci passe donc avant les autres, et il regarde ce fichier
+ * lui-même. C'est la troisième fois qu'un octet de contrôle finit dans une
+ * source de la maison.
+ */
+{
+  const source = readFileSync(join(RACINE, 'verifier.mjs'), 'utf-8')
+  // Tabulation, saut de ligne et retour chariot sont légitimes ; le reste non.
+  const invisibles = [...source].filter((c) => {
+    const code = c.charCodeAt(0)
+    return (code < 32 && code !== 9 && code !== 10 && code !== 13) || code === 127
+  })
+  if (invisibles.length > 0) {
+    const codes = [...new Set(invisibles.map((c) => '0x' + c.charCodeAt(0).toString(16)))]
+    echec(
+      `verifier.mjs contient ${invisibles.length} caractère(s) de contrôle (${codes.join(', ')}) — ` +
+        'un motif écrit avec un octet invisible ne correspond jamais, et le contrôle dit OK sans rien regarder'
+    )
+  }
+}
+
 /* ── 1. Chaque page a sa jumelle, et elles se ressemblent ────────────────── */
 
 /**
@@ -50,7 +86,12 @@ const echec = (message) => {
 const PAIRES = [
   ['index.html', 'en/index.html'],
   ['suite.html', 'en/roadmap.html'],
-  ['conditions.html', 'en/terms.html']
+  ['conditions.html', 'en/terms.html'],
+  // La page découverte est produite par `traduire-decouvrir.mjs`. Elle est donc
+  // alignée par construction — jusqu'au jour où quelqu'un éditera la page
+  // anglaise à la main plutôt que de relancer le script, et où la prochaine
+  // génération écrasera son travail sans prévenir.
+  ['decouvrir.html', 'en/discover.html']
 ]
 
 for (const [cheminFr, cheminEn] of PAIRES) {
@@ -64,12 +105,12 @@ for (const [cheminFr, cheminEn] of PAIRES) {
 
   const compter = (html, motif) => (html.match(motif) ?? []).length
   const structures = [
-    ['sections', /<section/g],
+    ['sections', /<section\b/g],
     ['cartes', /class="card reveal/g],
     ['applications', /class="app reveal/g],
     ['titres de section', /<h2 class="titre/g],
     ['titres de carte', /<h3>/g],
-    ['boutons', /class="btn/g],
+    ['boutons', /class="btn\b/g],
     ['paragraphes d’introduction', /class="intro reveal/g]
   ]
   for (const [nom, motif] of structures) {

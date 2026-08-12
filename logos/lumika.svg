@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64" fill="none" role="img" aria-label="Logo Lumika">
+  <defs>
+    <linearGradient id="fond-lumika" x1="0" y1="0" x2="64" y2="64" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FF7EB6"/>
+      <stop offset="1" stop-color="#A8154F"/>
+    </linearGradient>
+  </defs>
+
+  <rect x="2" y="2" width="60" height="60" rx="16" fill="url(#fond-lumika)"/>
+
+  <!--
+    Trois curseurs de conduite, a trois hauteurs differentes.
+
+    Pas un faisceau : Scenika a deja le faisceau, et deux logos de la meme
+    maison qui montrent la meme chose cessent de se distinguer a 16 pixels.
+    Le curseur dit ce que fait Lumika - on y monte des circuits, on y range
+    un plan de feu - et aucune autre marque de la maison ne l'emploie.
+
+    Les hauteurs sont volontairement inegales : trois curseurs alignes
+    formeraient un peigne regulier, illisible comme signe. L'irregularite
+    est ce qui rend la forme reconnaissable a petite taille.
+  -->
+  <path d="M18 15v34" stroke="#3D0A24" stroke-width="3.6" stroke-linecap="round"/>
+  <path d="M32 15v34" stroke="#3D0A24" stroke-width="3.6" stroke-linecap="round"/>
+  <path d="M46 15v34" stroke="#3D0A24" stroke-width="3.6" stroke-linecap="round"/>
+
+  <rect x="11" y="33" width="14" height="8" rx="4" fill="#3D0A24"/>
+  <rect x="25" y="18" width="14" height="8" rx="4" fill="#3D0A24"/>
+  <rect x="39" y="26" width="14" height="8" rx="4" fill="#3D0A24"/>
+
+  <!-- Signature de famille : les noeuds de circuit. -->
+  <circle cx="10" cy="56" r="2.4" fill="#3D0A24"/>
+  <path d="M10 56h5" stroke="#3D0A24" stroke-width="2.2" stroke-linecap="round"/>
+  <circle cx="54" cy="56" r="2.4" fill="#3D0A24"/>
+  <path d="M54 56h-5" stroke="#3D0A24" stroke-width="2.2" stroke-linecap="round"/>
+</svg>
