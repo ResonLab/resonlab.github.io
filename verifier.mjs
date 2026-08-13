@@ -141,6 +141,101 @@ for (const [cheminFr, cheminEn] of PAIRES) {
   }
 }
 
+/* ── 1 ter. Aucune substitution oubliée sur la page découverte ───────────── */
+
+/**
+ * **Le contrôle se déduit de la table de traduction, il ne l'énumère pas.**
+ *
+ * Le relevé du français résiduel ci-dessus repose sur une liste de mots écrite
+ * à la main. Elle a rendu service, mais c'est une liste figée : elle ne connaît
+ * que ce qu'on a pensé à y mettre le jour où on l'a écrite. Tout texte ajouté
+ * ensuite passe dessous — et c'est exactement ce qui est arrivé aux ancres des
+ * guides et au numéro de version d'un badge. **Avant d'écrire une valeur à la
+ * main, se demander qui la met à jour quand elle change.** Ici, personne.
+ *
+ * `traduire-decouvrir.mjs` porte déjà la réponse : chaque couple qu'il contient
+ * dit « ce texte français devient ce texte anglais ». Si le français d'un couple
+ * se retrouve encore dans la page anglaise, c'est qu'une substitution n'a pas
+ * mordu — et le script, lui, ne peut pas le voir, puisqu'il s'arrête seulement
+ * quand une chaîne est **introuvable**, jamais quand elle survit à côté.
+ *
+ * La table grandit avec la page : le contrôle grandit avec elle, sans que
+ * personne ait à y penser.
+ */
+{
+  const script = readFileSync(join(RACINE, 'traduire-decouvrir.mjs'), 'utf-8')
+  const en = readFileSync(join(RACINE, 'en/discover.html'), 'utf-8').replaceAll('\r\n', '\n')
+
+  // Le premier membre de chaque couple `[français, anglais]`, quel que soit le
+  // guillemet employé. On ne garde que les couples porteurs de texte affiché :
+  // les substitutions de chemins et d'attributs n'ont rien à faire ici.
+  const couples = [
+    ...script.matchAll(/\[\s*(['"`])((?:[^\\]|\\.)*?)\1\s*,\s*(['"`])((?:[^\\]|\\.)*?)\3\s*\]/gs)
+  ]
+
+  /**
+   * **Les échappements du source ne sont pas dans la page.**
+   *
+   * Un couple écrit entre guillemets doubles porte ses guillemets intérieurs
+   * échappés — `class=\"apercu-note\"` — alors que la page contient un
+   * guillemet nu. Comparés tels quels, ces couples-là ne pouvaient **jamais**
+   * mordre : le contrôle les examinait, les comptait dans son total, et ne
+   * pouvait rien y trouver.
+   *
+   * **Trouvé en le sabotant, pas en le relisant** : un texte français laissé
+   * dans une note d'aperçu passait au vert, alors que le même sabotage sur une
+   * entrée à guillemets simples échouait correctement. Un contrôle qui mord sur
+   * une partie de ce qu'il examine donne exactement la même confiance qu'un
+   * contrôle complet — et c'est là qu'il est dangereux.
+   */
+  const denuder = (texte) =>
+    texte.replaceAll('\\"', '"').replaceAll("\\'", "'").replaceAll('\\\\', '\\')
+
+  let examines = 0
+  for (const couple of couples) {
+    const francais = denuder(couple[2])
+    const anglais = denuder(couple[4])
+    // Une substitution qui ne change pas le texte — un chemin, un attribut —
+    // ne prouve rien : le français y « survit » légitimement.
+    if (francais === anglais) continue
+    /**
+     * On écarte ce qui ne porte pas de texte affiché — un chemin, un attribut.
+     *
+     * **Le premier filtre était trop fin et personne ne l'aurait vu.** Il
+     * exigeait un mot de quatre lettres suivi d'un espace, ce que
+     * « Pas d'adressage » n'a pas : le couple était écarté sans bruit, et le
+     * contrôle affichait OK sur un titre resté en français. Un filtre trop
+     * large produit des faux échecs qu'on remarque ; un filtre trop étroit
+     * produit des trous qu'on ne remarque jamais.
+     *
+     * On se contente donc de deux exclusions franches : une substitution de
+     * chemin, et une chaîne sans la moindre lettre.
+     */
+    if (/^(href|src|class|id)=/.test(francais)) continue
+    if (!/[A-Za-zÀ-ÿ]{3,}/.test(francais.replace(/<[^>]*>/g, ''))) continue
+    // Un fragment dont l'anglais contient le français en entier ne peut pas
+    // servir de témoin : il serait présent des deux côtés par construction.
+    if (anglais.includes(francais)) continue
+
+    examines += 1
+    if (en.includes(francais)) {
+      echec(
+        `en/discover.html : substitution oubliée — le texte français subsiste : ` +
+          `« ${francais.trim().slice(0, 70)}… »`
+      )
+    }
+  }
+
+  // Un contrôle qui n'examine rien dirait OK. Si le motif de lecture de la
+  // table cesse un jour de correspondre, on veut le savoir, pas le supposer.
+  if (examines < 20) {
+    echec(
+      `seulement ${examines} substitution(s) examinée(s) dans traduire-decouvrir.mjs — ` +
+        'le motif ne correspond plus, ce contrôle ne regarde plus rien'
+    )
+  }
+}
+
 /* ── 1 bis. Aucun numéro de version écrit à la main ──────────────────────── */
 
 // **Cette page annonçait « PUBLIÉ — 0.1.0 » le jour où la 0.2.0 est sortie**,

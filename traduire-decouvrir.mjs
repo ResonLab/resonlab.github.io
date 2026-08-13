@@ -21,6 +21,63 @@ const RACINE = dirname(fileURLToPath(import.meta.url))
 
 /** Les substitutions, dans l'ordre. Les plus longues d'abord. */
 const TRADUCTIONS = [
+
+  // ─ Scenika : la sortie de location ─
+  ['<div class="apercu-titre">Location 2026-041 — retour</div>', '<div class="apercu-titre">Rental 2026-041 — return</div>'],
+  ['<div><span>Lyre wash 575</span><b>4 / 4</b></div>', '<div><span>Wash moving head 575</span><b>4 / 4</b></div>'],
+  ['<div><span>Pied de levage</span><b class="dehors">3 / 4 — 1 dehors</b></div>', '<div><span>Lifting stand</span><b class="dehors">3 / 4 — 1 out</b></div>'],
+  ['<div><span>Câble DMX 10 m</span><b class="manque">6 / 8 — 2 manquants</b></div>', '<div><span>DMX cable 10 m</span><b class="manque">6 / 8 — 2 missing</b></div>'],
+  [
+    '<div class="apercu-note">Ce qui est sorti est calculé, jamais décrémenté : une location oubliée ne laisse pas un chiffre faux.</div>',
+    '<div class="apercu-note">What is out is computed, never decremented: a forgotten rental leaves no wrong figure behind.</div>'
+  ],
+
+  // ─ Adresso ─
+  ["<h2>Le patch est juste sur le papier. Il ne l'est pas au bout du câble.</h2>", '<h2>The patch is right on paper. It is not right at the end of the cable.</h2>'],
+  [
+    `          Le calculateur DMX de Scenika, gratuit et sans compte : adresses, univers,
+          chevauchements. Rien n'est enregistré, tout se calcule dans votre navigateur.`,
+    `          Scenika's DMX calculator, free and with no account: addresses, universes, overlaps.
+          Nothing is stored, everything is worked out in your browser.`
+  ],
+  [
+    `          Une carte des 512 canaux montre d'un coup d'œil les blocs occupés, les trous, et
+          surtout les chevauchements. Le pas d'adressage est affiché tel qu'on le tape dans une
+          console — et quand il n'est pas constant, l'application le dit au lieu d'inventer une
+          moyenne qu'on recopierait.`,
+    `          A map of all 512 channels shows the occupied blocks, the gaps, and above all the
+          overlaps, at a glance. The addressing step is shown just as you type it into a console —
+          and when it is not constant, the page says so instead of inventing an average you would
+          copy out.`
+  ],
+  ['<a class="lien" href="https://resonlab.github.io/scenika/calculateur-dmx.html">Ouvrir Adresso →</a>', '<a class="lien" href="https://resonlab.github.io/scenika/en/calculateur-dmx.html">Open Adresso →</a>'],
+  ['<div class="apercu-titre">Univers 1 — carte des canaux</div>', '<div class="apercu-titre">Universe 1 — channel map</div>'],
+  ['<div class="apercu-note">Ambre : occupé. Rouge : deux appareils sur le même canal.</div>', '<div class="apercu-note">Amber: taken. Red: two fixtures on the same channel.</div>'],
+  ["<div class=\"apercu-titre\">Pas d'adressage</div>", '<div class="apercu-titre">Addressing step</div>'],
+  [
+    '<div class="apercu-note">Un écart qui sort du rang interdit la saisie en série : il faut adresser appareil par appareil.</div>',
+    '<div class="apercu-note">A gap out of step rules out series entry: you have to address fixture by fixture.</div>'
+  ],
+
+  // ─ Acustika : la coupe ─
+  ['<div class="apercu-titre">Coupe — distance critique</div>', '<div class="apercu-titre">Section — critical distance</div>'],
+  ['<span class="etiq">D critique</span>', '<span class="etiq">Critical D</span>'],
+  [
+    "<div class=\"apercu-note\">Au-delà, la salle parle plus fort que l'enceinte, et l'écart de niveau devient trompeur.</div>",
+    '<div class="apercu-note">Beyond it the room speaks louder than the speaker, and the level spread becomes misleading.</div>'
+  ],
+
+  // ─ Lumika : la feuille de patch ─
+  ['<div class="apercu-titre">Feuille de patch — à emporter</div>', '<div class="apercu-titre">Patch sheet — to take along</div>'],
+  ['<div><span>PC 1 kW — face jardin</span><span class="t-trad">Circuit 12</span><span>L201</span></div>', '<div><span>1 kW fresnel — front stage left</span><span class="t-trad">Channel 12</span><span>L201</span></div>'],
+  ['<div><span>PC 1 kW — face cour</span><span class="t-trad">Circuit 12</span><span>L201</span></div>', '<div><span>1 kW fresnel — front stage right</span><span class="t-trad">Channel 12</span><span>L201</span></div>'],
+  ['<div><span>Barre LED — contre</span><span class="t-dmx">DMX 049</span><span>—</span></div>', '<div><span>LED bar — backlight</span><span class="t-dmx">DMX 049</span><span>—</span></div>'],
+  ['<div><span>Découpe 614 — douche</span><span class="t-trad">Circuit 07</span><span>L119</span></div>', '<div><span>614 profile — downlight</span><span class="t-trad">Channel 07</span><span>L119</span></div>'],
+  [
+    "<div class=\"apercu-note\">Le document qu'on emporte au montage, trié par patch et imprimable.</div>",
+    '<div class="apercu-note">The document you take to the get-in, sorted by patch and printable.</div>'
+  ],
+
   // ─ Entête du document ─
   ['<html lang="fr">', '<html lang="en">'],
   ['<title>ResonLab — découvrir</title>', '<title>ResonLab — discover</title>'],

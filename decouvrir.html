@@ -286,6 +286,93 @@
   .js .principe p { transform: translateY(30px); }
   .js .principe p.vu { transform: none; }
 
+
+  /* ── Plusieurs aperçus par acte ────────────────────────────────────────
+     Ils s'empilent dans la même colonne de la grille : ajouter un frère à
+     côté du texte casserait les deux colonnes sur toutes les tailles. */
+  .apercus { display: flex; flex-direction: column; gap: 16px; }
+
+  /* ── Adresso : la grille des 512 canaux ──────────────────────────────── */
+  .grille-canaux { display: grid; grid-template-columns: repeat(32, 1fr); gap: 2px; }
+  .grille-canaux i {
+    aspect-ratio: 1; border-radius: 1px; background: var(--border);
+    transition: background-color .45s var(--ease);
+  }
+  .grille-canaux i.pris { background: #FFC961; }
+  .grille-canaux i.heurt { background: #FF6B5E; }
+  /* Les carrés n'apparaissent qu'une fois l'aperçu vu : la grille se remplit
+     sous les yeux, ce qui est exactement ce qu'on veut montrer. */
+  .apercu:not(.vu) .grille-canaux i.pris,
+  .apercu:not(.vu) .grille-canaux i.heurt { background: var(--border); }
+
+  /* ── Adresso : le pas d'adressage ────────────────────────────────────── */
+  .pas-suite { display: flex; gap: 5px; flex-wrap: wrap; margin-top: 12px; }
+  .pas-suite span {
+    font-size: 12px; padding: 2px 7px; border-radius: 4px;
+    border: 1px solid var(--border); color: var(--fg-faint);
+    opacity: 0; transform: translateY(6px);
+    transition: opacity .4s var(--ease), transform .4s var(--ease);
+  }
+  .apercu.vu .pas-suite span { opacity: 1; transform: none; }
+  .apercu.vu .pas-suite span:nth-child(2) { transition-delay: .1s; }
+  .apercu.vu .pas-suite span:nth-child(3) { transition-delay: .2s; }
+  .apercu.vu .pas-suite span:nth-child(4) { transition-delay: .3s; }
+  .pas-suite span.casse { border-color: #FF6B5E; color: var(--fg); }
+
+  /* ── Scenika : la sortie de location ─────────────────────────────────── */
+  .sortie { display: flex; flex-direction: column; gap: 8px; }
+  .sortie div {
+    display: flex; justify-content: space-between; align-items: center;
+    font-size: 13.5px; padding: 7px 10px; border-radius: 7px;
+    background: rgba(255,255,255,.04); border: 1px solid var(--border);
+    opacity: 0; transform: translateX(14px);
+    transition: opacity .5s var(--ease), transform .5s var(--ease);
+  }
+  .apercu.vu .sortie div { opacity: 1; transform: none; }
+  .apercu.vu .sortie div:nth-child(2) { transition-delay: .12s; }
+  .apercu.vu .sortie div:nth-child(3) { transition-delay: .24s; }
+  .sortie b { font-variant-numeric: tabular-nums; }
+  .sortie .dehors { color: #FFC961; }
+  .sortie .manque { color: #FF6B5E; }
+
+  /* ── Acustika : la coupe et la distance critique ─────────────────────── */
+  .coupe { position: relative; height: 96px; border-radius: 8px; overflow: hidden;
+    background: linear-gradient(180deg, rgba(181,140,255,.16), rgba(109,74,224,.05)); }
+  .coupe .sol { position: absolute; left: 0; right: 0; bottom: 0; height: 1px; background: var(--border); }
+  .coupe .rayon {
+    position: absolute; left: 12%; bottom: 14px; height: 2px; border-radius: 2px;
+    background: linear-gradient(90deg, #B58CFF, rgba(181,140,255,0));
+    width: 0; transition: width 1.1s var(--ease);
+  }
+  .apercu.vu .coupe .rayon { width: 76%; }
+  .coupe .dc {
+    position: absolute; top: 8px; bottom: 8px; left: 58%; width: 2px;
+    background: repeating-linear-gradient(180deg, #FF6B5E 0 4px, transparent 4px 8px);
+    opacity: 0; transition: opacity .5s var(--ease) .9s;
+  }
+  .apercu.vu .coupe .dc { opacity: 1; }
+  .coupe .etiq { position: absolute; top: 6px; left: 60%; font-size: 11px; color: var(--fg-faint);
+    opacity: 0; transition: opacity .5s var(--ease) 1s; }
+  .apercu.vu .coupe .etiq { opacity: 1; }
+
+  /* ── Lumika : la feuille de patch ────────────────────────────────────── */
+  .feuille { font-size: 13px; }
+  .feuille div {
+    display: grid; grid-template-columns: 1fr auto auto; gap: 10px;
+    padding: 6px 0; border-bottom: 1px solid var(--border);
+    font-variant-numeric: tabular-nums;
+    opacity: 0; transform: translateY(8px);
+    transition: opacity .45s var(--ease), transform .45s var(--ease);
+  }
+  .apercu.vu .feuille div { opacity: 1; transform: none; }
+  .apercu.vu .feuille div:nth-child(2) { transition-delay: .1s; }
+  .apercu.vu .feuille div:nth-child(3) { transition-delay: .2s; }
+  .apercu.vu .feuille div:nth-child(4) { transition-delay: .3s; }
+  .feuille .t-trad { color: #FF7EB6; }
+  .feuille .t-dmx { color: #57D99A; }
+
+  @media (max-width: 720px) { .grille-canaux { grid-template-columns: repeat(16, 1fr); } }
+
   /* ── Les aperçus ──────────────────────────────────────────────────────── */
   .apercu {
     background: var(--card); border: 1px solid var(--border);
@@ -486,6 +573,7 @@
 
   <section class="acte" id="scenika">
     <div class="wrap">
+      <div class="apercus">
       <div class="apercu reveal">
         <div class="apercu-titre">Univers DMX — 512 canaux</div>
         <div class="univers">
@@ -501,6 +589,16 @@
         </div>
         <div class="apercu-note">Deux appareils sur la même adresse : trouvé avant le montage, pas pendant.</div>
       </div>
+      <div class="apercu reveal" style="--d:.12s">
+        <div class="apercu-titre">Location 2026-041 — retour</div>
+        <div class="sortie">
+          <div><span>Lyre wash 575</span><b>4 / 4</b></div>
+          <div><span>Pied de levage</span><b class="dehors">3 / 4 — 1 dehors</b></div>
+          <div><span>Câble DMX 10 m</span><b class="manque">6 / 8 — 2 manquants</b></div>
+        </div>
+        <div class="apercu-note">Ce qui est sorti est calculé, jamais décrémenté : une location oubliée ne laisse pas un chiffre faux.</div>
+      </div>
+      </div>
       <div class="reveal" style="--d:.1s">
         <div class="etiquette"><img src="logos/scenika.svg" alt="" /> Scenika</div>
         <h2>Le camion est chargé. Il manque un pied.</h2>
@@ -514,6 +612,41 @@
           location oubliée laisse un chiffre que rien ne rattrape.
         </p>
         <p><a class="lien" href="https://resonlab.github.io/scenika/">Voir Scenika →</a></p>
+      </div>
+    </div>
+  </section>
+
+
+  <section class="acte" id="adresso">
+    <div class="wrap">
+      <div class="reveal">
+        <div class="etiquette"><img src="logos/scenika.svg" alt="" /> Adresso</div>
+        <h2>Le patch est juste sur le papier. Il ne l'est pas au bout du câble.</h2>
+        <p class="accroche">
+          Le calculateur DMX de Scenika, gratuit et sans compte : adresses, univers,
+          chevauchements. Rien n'est enregistré, tout se calcule dans votre navigateur.
+        </p>
+        <p>
+          Une carte des 512 canaux montre d'un coup d'œil les blocs occupés, les trous, et
+          surtout les chevauchements. Le pas d'adressage est affiché tel qu'on le tape dans une
+          console — et quand il n'est pas constant, l'application le dit au lieu d'inventer une
+          moyenne qu'on recopierait.
+        </p>
+        <p><a class="lien" href="https://resonlab.github.io/scenika/calculateur-dmx.html">Ouvrir Adresso →</a></p>
+      </div>
+      <div class="apercus">
+        <div class="apercu reveal" style="--d:.1s">
+          <div class="apercu-titre">Univers 1 — carte des canaux</div>
+          <div class="grille-canaux" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i class="pris"></i><i class="pris"></i><i class="pris"></i><i class="pris"></i><i class="pris"></i><i class="pris"></i><i class="pris"></i><i class="pris"></i><i class="pris"></i><i class="pris"></i><i class="pris"></i><i class="pris"></i><i class="pris"></i><i class="pris"></i><i class="pris"></i><i class="pris"></i><i class="pris"></i><i class="pris"></i><i class="pris"></i><i class="pris"></i><i class="pris"></i><i class="pris"></i><i class="pris"></i><i class="pris"></i><i class="pris"></i><i class="pris"></i><i class="pris"></i><i class="pris"></i><i class="pris"></i><i class="pris"></i><i class="pris"></i><i class="pris"></i><i class="pris"></i><i class="pris"></i><i class="pris"></i><i class="pris"></i><i class="pris"></i><i class="pris"></i><i class="pris"></i><i class="pris"></i><i class="pris"></i><i class="pris"></i><i class="pris"></i><i class="pris"></i><i class="pris"></i><i class="pris"></i><i class="pris"></i><i class="pris"></i><i class="pris"></i><i class="pris"></i><i class="pris"></i><i class="pris"></i><i class="pris"></i><i class="pris"></i><i class="pris"></i><i class="pris"></i><i class="pris"></i><i class="pris"></i><i class="pris"></i><i class="pris"></i><i class="pris"></i><i class="pris"></i><i class="pris"></i><i class="pris"></i><i class="pris"></i><i class="pris"></i><i class="pris"></i><i class="pris"></i><i class="pris"></i><i class="pris"></i><i class="pris"></i><i class="pris"></i><i class="pris"></i><i class="pris"></i><i class="pris"></i><i class="pris"></i><i class="pris"></i><i class="pris"></i><i class="pris"></i><i class="pris"></i><i class="pris"></i><i class="pris"></i><i class="pris"></i><i class="pris"></i><i class="pris"></i><i class="pris"></i><i class="pris"></i><i class="pris"></i><i class="pris"></i><i class="pris"></i><i class="pris"></i><i class="pris"></i><i class="pris"></i><i class="pris"></i><i class="pris"></i><i class="pris"></i><i class="pris"></i><i class="pris"></i><i class="pris"></i><i class="pris"></i><i class="pris"></i><i class="pris"></i><i class="pris"></i><i class="pris"></i><i class="pris"></i><i class="pris"></i><i class="pris"></i><i class="pris"></i><i class="pris"></i><i class="pris"></i><i class="pris"></i><i class="pris"></i><i class="pris"></i><i class="pris"></i><i class="pris"></i><i class="pris"></i><i class="pris"></i><i class="pris"></i><i class="pris"></i><i class="pris"></i><i class="pris"></i><i class="pris"></i><i class="pris"></i><i class="pris"></i><i class="pris"></i><i class="pris"></i><i class="pris"></i><i class="pris"></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i class="pris"></i><i class="pris"></i><i class="pris"></i><i class="pris"></i><i class="heurt"></i><i class="heurt"></i><i class="heurt"></i><i class="heurt"></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i class="pris"></i><i class="pris"></i><i class="pris"></i><i class="pris"></i><i class="pris"></i><i class="pris"></i><i class="pris"></i><i class="pris"></i><i class="pris"></i><i class="pris"></i><i class="pris"></i><i class="pris"></i><i class="pris"></i><i class="pris"></i><i class="pris"></i><i class="pris"></i><i class="pris"></i><i class="pris"></i><i class="pris"></i><i class="pris"></i><i class="pris"></i><i class="pris"></i><i class="pris"></i><i class="pris"></i><i class="pris"></i><i class="pris"></i><i class="pris"></i><i class="pris"></i><i class="pris"></i><i class="pris"></i><i class="pris"></i><i class="pris"></i><i class="pris"></i><i class="pris"></i><i class="pris"></i><i class="pris"></i><i class="pris"></i><i class="pris"></i><i class="pris"></i><i class="pris"></i><i class="pris"></i><i class="pris"></i><i class="pris"></i><i class="pris"></i><i class="pris"></i><i class="pris"></i><i class="pris"></i><i class="pris"></i><i class="pris"></i><i class="pris"></i><i class="pris"></i><i class="pris"></i><i class="pris"></i><i class="pris"></i><i class="pris"></i><i class="pris"></i><i class="pris"></i><i class="pris"></i><i class="pris"></i><i class="pris"></i><i class="pris"></i><i class="pris"></i><i class="pris"></i><i class="pris"></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+          <div class="apercu-note">Ambre : occupé. Rouge : deux appareils sur le même canal.</div>
+        </div>
+        <div class="apercu reveal" style="--d:.2s">
+          <div class="apercu-titre">Pas d'adressage</div>
+          <div class="pas-suite">
+            <span>+16</span><span>+16</span><span class="casse">+8</span><span>+16</span>
+          </div>
+          <div class="apercu-note">Un écart qui sort du rang interdit la saisie en série : il faut adresser appareil par appareil.</div>
+        </div>
       </div>
     </div>
   </section>
@@ -535,16 +668,29 @@
         </p>
         <p><a class="lien" href="https://resonlab.github.io/acustika/">Voir Acustika →</a></p>
       </div>
+      <div class="apercus">
       <div class="apercu reveal" style="--d:.1s">
         <div class="apercu-titre">Couverture à 1 kHz</div>
         <div class="carte-couv" id="carte-couv" aria-hidden="true"></div>
         <div class="apercu-note">L'écart sur toute la salle compte plus que le niveau au centre.</div>
+      </div>
+      <div class="apercu reveal" style="--d:.2s">
+        <div class="apercu-titre">Coupe — distance critique</div>
+        <div class="coupe" aria-hidden="true">
+          <span class="rayon"></span>
+          <span class="dc"></span>
+          <span class="etiq">D critique</span>
+          <span class="sol"></span>
+        </div>
+        <div class="apercu-note">Au-delà, la salle parle plus fort que l'enceinte, et l'écart de niveau devient trompeur.</div>
+      </div>
       </div>
     </div>
   </section>
 
   <section class="acte" id="lumika">
     <div class="wrap">
+      <div class="apercus">
       <div class="apercu reveal">
         <div class="apercu-titre">Perche 2 — patch</div>
         <div class="perche-vue">
@@ -560,6 +706,17 @@
           <div class="piste"><span class="cap"></span></div>
         </div>
         <div class="apercu-note">Rose : circuit de gradateur. Vert : adresse DMX. Jamais les deux.</div>
+      </div>
+      <div class="apercu reveal" style="--d:.12s">
+        <div class="apercu-titre">Feuille de patch — à emporter</div>
+        <div class="feuille">
+          <div><span>PC 1 kW — face jardin</span><span class="t-trad">Circuit 12</span><span>L201</span></div>
+          <div><span>PC 1 kW — face cour</span><span class="t-trad">Circuit 12</span><span>L201</span></div>
+          <div><span>Barre LED — contre</span><span class="t-dmx">DMX 049</span><span>—</span></div>
+          <div><span>Découpe 614 — douche</span><span class="t-trad">Circuit 07</span><span>L119</span></div>
+        </div>
+        <div class="apercu-note">Le document qu'on emporte au montage, trié par patch et imprimable.</div>
+      </div>
       </div>
       <div class="reveal" style="--d:.1s">
         <div class="etiquette"><img src="logos/lumika.svg" alt="" /> Lumika</div>
