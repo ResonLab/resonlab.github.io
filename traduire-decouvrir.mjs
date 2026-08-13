@@ -221,16 +221,38 @@ const TRADUCTIONS = [
   ['>Découvrir ResonLab<', '>Discover ResonLab<']
 ]
 
+const CARACTERES_SPECIAUX = /[.*+?^${}()|[\]\\]/g
+
+/**
+ * Cherche une chaine **sans se soucier des espaces**.
+ *
+ * Un premier jet comparait a l identique, et douze substitutions sur soixante
+ * ont echoue le jour ou le fichier est passe en CRLF : les recherches
+ * multilignes ne correspondaient plus a rien, alors que le texte etait
+ * inchange. Un script qui casse sur une fin de ligne est le meme defaut qu un
+ * test qui compare du texte source — il ne distingue pas une vraie disparition
+ * d une remise en forme, et on finit par le contourner.
+ */
+function motifSouple(chaine) {
+  const morceaux = chaine
+    .split(/\s+/)
+    .filter((m) => m.length > 0)
+    .map((m) => m.replace(CARACTERES_SPECIAUX, '\\$&'))
+  return new RegExp(morceaux.join('\\s+'), 'g')
+}
+
 const source = readFileSync(join(RACINE, 'decouvrir.html'), 'utf-8')
 let page = source
 const manquantes = []
 
 for (const [avant, apres] of TRADUCTIONS) {
-  if (!page.includes(avant)) {
+  const motif = motifSouple(avant)
+  if (!motif.test(page)) {
     manquantes.push(avant.slice(0, 72).replace(/\s+/g, ' '))
     continue
   }
-  page = page.replaceAll(avant, apres)
+  motif.lastIndex = 0
+  page = page.replace(motif, () => apres)
 }
 
 if (manquantes.length > 0) {

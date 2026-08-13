@@ -192,9 +192,99 @@
   .acte a.lien { color: var(--lien); text-decoration: none; font-weight: 600; }
   .acte a.lien:hover { text-decoration: underline; }
 
-  /* Révélation au défilement : sans JS, tout reste visible. */
-  .js .reveal { opacity: 0; transform: translateY(26px); transition: opacity .85s var(--ease), transform .85s var(--ease); transition-delay: var(--d, 0s); }
-  .js .reveal.vu { opacity: 1; transform: none; }
+  /* ── Révélation au défilement : sans JS, tout reste visible ──────────────
+     Le texte monte doucement. Les aperçus, eux, **tombent du haut de l'écran**
+     et rebondissent en arrivant : c'est la seule chose de cette page qui a le
+     droit d'être tape-à-l'œil, parce que c'est elle qu'on regarde. */
+  .js .reveal {
+    opacity: 0;
+    transform: translateY(26px);
+    filter: blur(4px);
+    transition: opacity .85s var(--ease), transform .85s var(--ease), filter .85s var(--ease);
+    transition-delay: var(--d, 0s);
+  }
+  .js .reveal.vu { opacity: 1; transform: none; filter: blur(0); }
+
+  /* Les titres se resserrent en se posant, comme sur les sites des applications.
+     Deux selecteurs, parce que le titre est tantot **dans** un bloc revele —
+     les actes — tantot revele lui-meme : le principe et l appel final. Un seul
+     des deux aurait laisse la moitie des titres sans animation, et personne ne
+     l aurait vu sans comparer deux sections cote a cote. */
+  .js .reveal h2,
+  .js h2.reveal { letter-spacing: -.05em; transition: letter-spacing 1.1s var(--ease) var(--d, 0s); }
+  .js .reveal.vu h2,
+  .js h2.reveal.vu { letter-spacing: -.025em; }
+
+  /* **La chute.** L'aperçu part au-dessus de la fenêtre, tourné et écrasé, et
+     retombe à sa place avec un rebond. `120vh` garantit qu'il vient bien de
+     hors champ quelle que soit la hauteur de l'écran — une valeur en pixels
+     serait fausse sur un grand moniteur, où l'on verrait la carte apparaître
+     du milieu de nulle part. */
+  .js .apercu {
+    opacity: 0;
+    transform: translateY(-120vh) rotate(var(--tour, -7deg)) scale(.86);
+    transition: none;
+  }
+  .js .apercu.vu {
+    opacity: 1;
+    transform: none;
+    /* Le rebond est dans la courbe, pas dans une seconde animation : une seule
+       transition reste interruptible et ne laisse jamais la carte en l'air si
+       l'on défile vite. */
+    transition:
+      transform 1.05s cubic-bezier(.2, 1.35, .35, 1) var(--d, 0s),
+      opacity .45s ease-out var(--d, 0s);
+  }
+
+  /* Un acte sur deux penche dans l'autre sens : deux chutes identiques
+     ressemblent à un défaut, deux chutes opposées à une intention. */
+  .acte:nth-of-type(even) .apercu { --tour: 6deg; }
+
+  /* ── Les autres entrées ────────────────────────────────────────────────────
+     Chaque famille d'éléments arrive avec son propre geste. **Ce n'est pas
+     de la décoration** : deux blocs qui entrent différemment se lisent comme
+     deux choses différentes, et l'œil sait où regarder ensuite.
+
+     Tous partent de `.reveal`, donc tous héritent du même déclencheur au
+     défilement, du même délai `--d`, et du même repli quand le lecteur demande
+     moins d'animation. */
+
+  /* Le texte d'un acte vient du côté opposé à son aperçu : les deux se
+     rejoignent au milieu, au lieu de tomber l'un sur l'autre. */
+  .js .acte .wrap > div:not(.apercu) { transform: translateX(-38px); }
+  .js .acte:nth-of-type(even) .wrap > div:not(.apercu) { transform: translateX(38px); }
+  .js .acte .wrap > div:not(.apercu).vu { transform: none; }
+
+  /* L'étiquette et son logo : le logo pivote en se posant. */
+  .js .etiquette img { transform: rotate(-24deg) scale(.7); transition: transform 1s var(--ease) .15s; }
+  .js .reveal.vu .etiquette img { transform: none; }
+
+  /* Les titres d'acte arrivent d'un peu plus bas et d'un peu plus grand :
+     ils se posent au lieu d'apparaître. */
+  .js .acte h2 { transform: translateY(14px) scale(1.04); transform-origin: 0 50%; transition: transform 1s var(--ease) .08s; }
+  .js .reveal.vu h2 { transform: none; }
+
+  /* Les logos de la famille tombent un par un, comme les aperçus mais en plus
+     court : ils ferment la page, ils ne doivent pas la retenir. */
+  .js .famille-logos img {
+    opacity: 0;
+    transform: translateY(-60vh) rotate(-18deg);
+    transition: transform .8s cubic-bezier(.2, 1.4, .4, 1), opacity .3s ease-out;
+  }
+  .js .famille-logos.vu img { opacity: 1; transform: none; }
+  .js .famille-logos.vu img:nth-child(2) { transition-delay: .08s; }
+  .js .famille-logos.vu img:nth-child(3) { transition-delay: .16s; }
+  .js .famille-logos.vu img:nth-child(4) { transition-delay: .24s; }
+  .js .famille-logos.vu img:nth-child(5) { transition-delay: .32s; }
+
+  /* Le bouton final surgit : c'est la dernière chose qu'on veut voir bouger. */
+  .js .final .btn { transform: scale(.82); transition: transform .7s cubic-bezier(.2, 1.5, .4, 1) .1s, box-shadow .25s; }
+  .js .final .reveal.vu .btn, .js .final .reveal.vu.btn { transform: none; }
+
+  /* Le principe : chaque paragraphe glisse un peu plus loin que le précédent,
+     et l'ensemble donne une descente plutôt que trois blocs qui clignotent. */
+  .js .principe p { transform: translateY(30px); }
+  .js .principe p.vu { transform: none; }
 
   /* ── Les aperçus ──────────────────────────────────────────────────────── */
   .apercu {
@@ -307,7 +397,13 @@
   @media (prefers-reduced-motion: reduce) {
     html { scroll-behavior: auto; }
     * { animation: none !important; transition: none !important; }
-    .js .reveal, .mot > span, .chapo, .actions, .indice { opacity: 1 !important; transform: none !important; }
+    .js .reveal, .js .apercu, .mot > span, .chapo, .actions, .indice,
+    .js .acte .wrap > div, .js .etiquette img, .js .acte h2,
+    .js .famille-logos img, .js .final .btn, .js .principe p {
+      opacity: 1 !important; transform: none !important; filter: none !important;
+    }
+    .js .reveal h2, .js .reveal.vu h2,
+    .js h2.reveal, .js h2.reveal.vu { letter-spacing: -.025em; transition: none; }
   }
 </style>
 </head>
