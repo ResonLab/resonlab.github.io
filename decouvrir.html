@@ -373,6 +373,92 @@
 
   @media (max-width: 720px) { .grille-canaux { grid-template-columns: repeat(16, 1fr); } }
 
+
+  /* ── Le reste de la page, au même niveau que les logos de famille ───────
+     Les logos tombaient du haut avec un rebond ; tout le reste se contentait
+     d'une translation de trente pixels. La page paraissait donc s'animer une
+     fois, à la fin, et rester plate ailleurs. Ces règles reprennent la même
+     courbe — un léger dépassement, cubic-bezier(.2, 1.4, .4, 1) — pour que
+     l'ensemble ait une seule main. */
+
+  /* Les titres de section arrivent de la gauche, comme un volet. */
+  .js .principe h2, .js .final h2 {
+    transform: translateY(26px) scale(.96);
+    transition: opacity .7s var(--ease), transform .8s cubic-bezier(.2, 1.4, .4, 1);
+  }
+  .js .principe h2.vu, .js .final h2.vu { transform: none; }
+
+  /* Les paragraphes du principe : la translation existait, on lui ajoute le
+     retard en cascade et la courbe de la maison. */
+  .js .principe p {
+    transform: translateY(30px);
+    transition: opacity .65s var(--ease) var(--d, 0s),
+                transform .75s cubic-bezier(.2, 1.35, .4, 1) var(--d, 0s);
+  }
+  .js .principe p.vu { transform: none; }
+
+  /* Le mot en dégradé du titre respire quand la section arrive : le dégradé
+     balaie une fois, puis s'arrête. Une animation infinie sur un titre attire
+     l'œil en permanence et fatigue. */
+  .js .principe h2.vu .grad-text,
+  .js .final h2.vu .grad-text {
+    animation: flux 3.2s var(--ease) 1;
+  }
+
+  /* Les étiquettes d'application, sous le logo : elles montaient sans caractère.
+     Un léger pivot les rattache au mouvement des aperçus, qui tombent tournés. */
+  .js .etiquette {
+    transform: translateY(18px) rotate(-2deg);
+    transition: opacity .6s var(--ease), transform .7s cubic-bezier(.2, 1.4, .4, 1);
+  }
+  .js .reveal.vu .etiquette, .js .etiquette.vu { transform: none; }
+
+  /* Le logo de l'étiquette pivote une fois, à l'arrivée. */
+  .js .reveal.vu .etiquette img { animation: pivote .8s cubic-bezier(.2, 1.4, .4, 1) 1; }
+  @keyframes pivote {
+    from { transform: rotate(-90deg) scale(.4); opacity: 0; }
+    to   { transform: none; opacity: 1; }
+  }
+
+  /* L'accroche de chaque acte : elle arrive après le titre, décalée. */
+  .js .acte .accroche {
+    transform: translateY(22px);
+    transition: opacity .6s var(--ease) .1s, transform .7s cubic-bezier(.2, 1.35, .4, 1) .1s;
+  }
+  .js .reveal.vu .accroche { transform: none; }
+
+  /* Le lien « Voir … » se souligne en arrivant, de gauche à droite. */
+  .lien { position: relative; }
+  .lien::after {
+    content: ''; position: absolute; left: 0; right: 0; bottom: -3px; height: 1px;
+    background: currentColor; transform: scaleX(0); transform-origin: left;
+    transition: transform .6s var(--ease) .25s;
+  }
+  .js .reveal.vu .lien::after { transform: scaleX(1); }
+
+  /* Le bouton final : il avait déjà son ressort. On lui ajoute une lueur qui
+     passe une fois, pour dire que c'est là qu'on clique. */
+  .js .final .reveal.vu .btn { animation: lueur 1.6s var(--ease) .35s 1; }
+  @keyframes lueur {
+    0%   { box-shadow: 0 0 0 0 rgba(255,255,255,.28); }
+    60%  { box-shadow: 0 0 0 14px rgba(255,255,255,0); }
+    100% { box-shadow: 0 0 0 0 rgba(255,255,255,0); }
+  }
+
+  /* Le respect du réglage système l'emporte sur tout ce qui précède. */
+  @media (prefers-reduced-motion: reduce) {
+    .js .principe h2, .js .final h2, .js .principe p,
+    .js .etiquette, .js .acte .accroche {
+      transform: none !important;
+      transition: none !important;
+    }
+    .js .principe h2.vu .grad-text, .js .final h2.vu .grad-text,
+    .js .reveal.vu .etiquette img, .js .final .reveal.vu .btn {
+      animation: none !important;
+    }
+    .lien::after { transition: none; transform: scaleX(1); }
+  }
+
   /* ── Les aperçus ──────────────────────────────────────────────────────── */
   .apercu {
     background: var(--card); border: 1px solid var(--border);
@@ -818,13 +904,24 @@
   }
 
   // Révélation progressive au défilement.
+  //
+  // **Elle rejoue.** Le premier jet faisait `unobserve` dès la première
+  // apparition : on remontait la page, on redescendait, et plus rien ne
+  // bougeait — la page paraissait morte à la deuxième lecture, qui est
+  // pourtant celle où l'on regarde vraiment.
+  //
+  // Deux seuils au lieu d'un, et c'est ce qui évite le clignotement : on
+  // révèle dès 16 % visible, mais on ne remet à zéro que lorsque l'élément est
+  // **entièrement** sorti du cadre. Avec un seuil unique, un doigt qui hésite
+  // au bord de l'écran ferait battre l'animation.
   var cibles = document.querySelectorAll('.reveal, .apercu');
   if ('IntersectionObserver' in window) {
     var obs = new IntersectionObserver(function (entrees) {
       entrees.forEach(function (e) {
-        if (e.isIntersecting) { e.target.classList.add('vu'); obs.unobserve(e.target); }
+        if (e.intersectionRatio >= .16) e.target.classList.add('vu');
+        else if (e.intersectionRatio === 0) e.target.classList.remove('vu');
       });
-    }, { rootMargin: '0px 0px -10% 0px', threshold: .16 });
+    }, { rootMargin: '0px 0px -10% 0px', threshold: [0, .16] });
     cibles.forEach(function (c) { obs.observe(c); });
   } else {
     // Navigateur ancien : on montre tout sans animation.
