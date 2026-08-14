@@ -910,16 +910,25 @@
   // bougeait — la page paraissait morte à la deuxième lecture, qui est
   // pourtant celle où l'on regarde vraiment.
   //
-  // Deux seuils au lieu d'un, et c'est ce qui évite le clignotement : on
-  // révèle dès 16 % visible, mais on ne remet à zéro que lorsque l'élément est
-  // **entièrement** sorti du cadre. Avec un seuil unique, un doigt qui hésite
-  // au bord de l'écran ferait battre l'animation.
+  // **La remise à zéro demande une vraie distance, et c'est indispensable.**
+  // Un premier jet remettait à zéro dès que le ratio tombait à zéro. Or
+  // l'animation *déplace l'élément que l'observateur mesure* : révéler décale
+  // de trente pixels, ce qui change l'intersection, ce qui remet à zéro, ce qui
+  // décale encore — les animations tournaient en boucle.
+  //
+  // On exige donc que l'élément soit sorti d'au moins 120 pixels avant de le
+  // réarmer. Cette hystérésis dépasse largement l'amplitude des animations
+  // (trente pixels au plus), si bien que le mouvement ne peut plus se
+  // réalimenter lui-même.
   var cibles = document.querySelectorAll('.reveal, .apercu');
   if ('IntersectionObserver' in window) {
     var obs = new IntersectionObserver(function (entrees) {
       entrees.forEach(function (e) {
-        if (e.intersectionRatio >= .16) e.target.classList.add('vu');
-        else if (e.intersectionRatio === 0) e.target.classList.remove('vu');
+        if (e.intersectionRatio >= .16) { e.target.classList.add('vu'); return; }
+        if (e.intersectionRatio !== 0) return;
+        var boite = e.boundingClientRect;
+        var loin = boite.bottom < -120 || boite.top > (window.innerHeight || 0) + 120;
+        if (loin) e.target.classList.remove('vu');
       });
     }, { rootMargin: '0px 0px -10% 0px', threshold: [0, .16] });
     cibles.forEach(function (c) { obs.observe(c); });
