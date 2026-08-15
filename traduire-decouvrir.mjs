@@ -101,6 +101,7 @@ const TRADUCTIONS = [
   ['src="logos/nexika.svg"', 'src="../logos/nexika.svg"'],
   ['<a href="en/discover.html" class="langue" hreflang="en">EN</a>', '<a href="../decouvrir.html" class="langue" hreflang="fr">FR</a>'],
   ['href="suite.html"', 'href="roadmap.html"'],
+  ['href="telecharger.html"', 'href="download.html"'],
   ['href="conditions.html"', 'href="terms.html"'],
   ['https://resonlab.github.io/ohmnia/', 'https://resonlab.github.io/ohmnia/en/'],
   ['https://resonlab.github.io/scenika/', 'https://resonlab.github.io/scenika/en/'],
@@ -109,6 +110,7 @@ const TRADUCTIONS = [
   // ─ Navigation et pied ─
   ['<a href="./">Le site</a>', '<a href="./">The site</a>'],
   ['>La suite<', '>Roadmap<'],
+  ['>Télécharger<', '>Download<'],
   ['aria-label="Changer le thème"', 'aria-label="Change theme"'],
   ["<a href=\"terms.html\">Conditions d'utilisation</a>", '<a href="terms.html">Terms of use</a>'],
   ['<p>Logiciels libres, sous licence MIT.</p>', '<p>Free software, MIT licence.</p>'],

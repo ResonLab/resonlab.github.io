@@ -91,7 +91,9 @@ const PAIRES = [
   // alignée par construction — jusqu'au jour où quelqu'un éditera la page
   // anglaise à la main plutôt que de relancer le script, et où la prochaine
   // génération écrasera son travail sans prévenir.
-  ['decouvrir.html', 'en/discover.html']
+  ['decouvrir.html', 'en/discover.html'],
+  // Produite par `traduire-telecharger.mjs`, même remarque que ci-dessus.
+  ['telecharger.html', 'en/download.html']
 ]
 
 for (const [cheminFr, cheminEn] of PAIRES) {
@@ -162,9 +164,22 @@ for (const [cheminFr, cheminEn] of PAIRES) {
  * La table grandit avec la page : le contrôle grandit avec elle, sans que
  * personne ait à y penser.
  */
-{
-  const script = readFileSync(join(RACINE, 'traduire-decouvrir.mjs'), 'utf-8')
-  const en = readFileSync(join(RACINE, 'en/discover.html'), 'utf-8').replaceAll('\r\n', '\n')
+/**
+ * Les pages fabriquées par substitution, et leur table.
+ *
+ * **Ce contrôle ne visait qu'une page**, et c'était le piège qu'il dénonce
+ * lui-même une ligne plus haut : la page suivante fabriquée de la même façon
+ * serait passée dessous, sous un « site cohérent » qui ne l'aurait jamais
+ * regardée. Ajouter une page ici est désormais la seule chose à faire.
+ */
+const TRADUITES = [
+  ['traduire-decouvrir.mjs', 'en/discover.html', 20],
+  ['traduire-telecharger.mjs', 'en/download.html', 12]
+]
+
+for (const [nomScript, pageAnglaise, minimumExamines] of TRADUITES) {
+  const script = readFileSync(join(RACINE, nomScript), 'utf-8')
+  const en = readFileSync(join(RACINE, pageAnglaise), 'utf-8').replaceAll('\r\n', '\n')
 
   // Le premier membre de chaque couple `[français, anglais]`, quel que soit le
   // guillemet employé. On ne garde que les couples porteurs de texte affiché :
@@ -220,7 +235,7 @@ for (const [cheminFr, cheminEn] of PAIRES) {
     examines += 1
     if (en.includes(francais)) {
       echec(
-        `en/discover.html : substitution oubliée — le texte français subsiste : ` +
+        `${pageAnglaise} : substitution oubliée — le texte français subsiste : ` +
           `« ${francais.trim().slice(0, 70)}… »`
       )
     }
@@ -228,9 +243,9 @@ for (const [cheminFr, cheminEn] of PAIRES) {
 
   // Un contrôle qui n'examine rien dirait OK. Si le motif de lecture de la
   // table cesse un jour de correspondre, on veut le savoir, pas le supposer.
-  if (examines < 20) {
+  if (examines < minimumExamines) {
     echec(
-      `seulement ${examines} substitution(s) examinée(s) dans traduire-decouvrir.mjs — ` +
+      `seulement ${examines} substitution(s) examinée(s) dans ${nomScript} — ` +
         'le motif ne correspond plus, ce contrôle ne regarde plus rien'
     )
   }
@@ -263,6 +278,42 @@ for (const chemin of ['index.html', 'en/index.html']) {
   }
 }
 
+/* ── 1 bis. La famille est au complet partout où on l'énumère ────────────── */
+
+/**
+ * **Une page qui présente la maison doit les présenter toutes.**
+ *
+ * Défaut réel, signalé par l'utilisateur : Lumika manquait de « La suite » et
+ * de la page des conditions, dans les deux langues. Rien ne pouvait le voir —
+ * cette suite compare le français et l'anglais, et une application absente
+ * **des deux côtés** les laisse parfaitement alignés. C'est la troisième forme
+ * de panne : une vérification qui échoue très bien, mais qui ne regarde pas ce
+ * qui compte. Le LISEZ-MOI annonçait « les conditions des cinq » ; la page en
+ * listait quatre.
+ *
+ * **La liste des marques est relevée dans `logos/`, jamais écrite ici.** Une
+ * liste figée serait exactement le défaut qu'on corrige : la sixième
+ * application manquerait au contrôle censé la réclamer. C'est la leçon déjà
+ * payée sur la liste d'ancres et sur les marques de `fabriquer-icones.mjs`.
+ *
+ * **La règle s'ajuste au lieu d'imposer un tableau de pages.** Une page qui
+ * nomme au moins trois des marques est une page qui énumère la famille : elle
+ * doit alors les nommer toutes. Une page qui n'en cite qu'une ou deux parle
+ * d'autre chose et n'est pas concernée — et une page nouvelle est couverte
+ * sans qu'on ait à penser à l'inscrire quelque part.
+ */
+const MARQUES = readdirSync(join(RACINE, 'logos'))
+  .filter((f) => f.endsWith('.svg'))
+  .map((f) => f.replace(/\.svg$/, ''))
+  .filter((nom) => nom !== 'resonlab')
+
+if (MARQUES.length < 2) {
+  echec(`logos/ ne donne que ${MARQUES.length} marque(s) : le contrôle de la famille ne regarde rien`)
+}
+
+/** Au-delà de ce nombre de marques citées, la page énumère la famille. */
+const SEUIL_ENUMERATION = 3
+
 /* ── 2. Aucun lien mort, aucune ressource externe ────────────────────────── */
 
 const pages = [
@@ -284,6 +335,16 @@ for (const [dossier, fichier] of pages) {
   }
   for (const [, ancre] of html.matchAll(/href="#([^"]+)"/g)) {
     if (!html.includes(`id="${ancre}"`)) echec(`ancre morte dans ${etiquette} → #${ancre}`)
+  }
+
+  // La famille au complet, dès que la page l'énumère.
+  const citees = MARQUES.filter((marque) => new RegExp(marque, 'i').test(html))
+  if (citees.length >= SEUIL_ENUMERATION && citees.length < MARQUES.length) {
+    const absentes = MARQUES.filter((m) => !citees.includes(m))
+    echec(
+      `${etiquette} présente la maison mais oublie ${absentes.join(', ')} — ` +
+        `${citees.length} marque(s) sur ${MARQUES.length}`
+    )
   }
 
   // GitHub Pages doit pouvoir servir ces fichiers seuls : rien ne doit être
