@@ -33,8 +33,8 @@
     --lien: #b58cff;
     --grad: linear-gradient(120deg, #1BE7B6, #FFB648, #8B5CF6);
     --stripe: rgba(255,255,255,.045);
-    --aurora-op: .34;
-    --radius: 14px;
+
+    --radius: 4px;
     --maxw: 1120px;
     --ease: cubic-bezier(.16, 1, .3, 1);
   }
@@ -44,7 +44,7 @@
       --border: rgba(17,13,26,.12);
       --fg: #16121f; --fg-dim: #544d66; --fg-faint: #7b7390;
       --stripe: rgba(17,13,26,.05);
-      --aurora-op: .17; --lien: #6d4ae0;
+
     }
   }
   :root[data-theme="clair"] {
@@ -52,14 +52,14 @@
     --border: rgba(17,13,26,.12);
     --fg: #16121f; --fg-dim: #544d66; --fg-faint: #7b7390;
     --stripe: rgba(17,13,26,.05);
-    --aurora-op: .17; --lien: #6d4ae0;
+
   }
   :root[data-theme="sombre"] {
     --bg: #0c0b10; --bg-2: #08070c; --card: #16151d;
     --border: rgba(255,255,255,.09);
     --fg: #f1eff5; --fg-dim: #9d97ab; --fg-faint: #6f6a80;
     --stripe: rgba(255,255,255,.045);
-    --aurora-op: .34; --lien: #b58cff;
+
   }
 
   * { box-sizing: border-box; }
@@ -73,24 +73,11 @@
   .wrap { max-width: var(--maxw); margin: 0 auto; padding: 0 22px; }
 
   /* ── Le fond : trois halos qui dérivent lentement ────────────────────── */
-  .aurora { position: fixed; inset: 0; z-index: -1; overflow: hidden; pointer-events: none; }
-  .aurora i { position: absolute; display: block; border-radius: 50%; filter: blur(110px); opacity: var(--aurora-op); }
-  .aurora .a1 { width: 560px; height: 560px; background: #1BE7B6; top: -190px; left: -150px; animation: derive1 34s ease-in-out infinite alternate; }
-  .aurora .a2 { width: 620px; height: 620px; background: #F2751A; top: -130px; right: -210px; animation: derive2 42s ease-in-out infinite alternate; }
-  .aurora .a3 { width: 480px; height: 480px; background: #8B5CF6; top: 48%; left: 40%; animation: derive3 50s ease-in-out infinite alternate; opacity: calc(var(--aurora-op) * .75); }
-  @keyframes derive1 { to { transform: translate3d(150px, 100px, 0) scale(1.2); } }
-  @keyframes derive2 { to { transform: translate3d(-130px, 150px, 0) scale(1.14); } }
-  @keyframes derive3 { to { transform: translate3d(-190px, -120px, 0) scale(1.28); } }
-
-  .progres {
-    position: fixed; top: 0; left: 0; height: 3px; width: 0;
-    background: var(--grad); z-index: 60; transition: width .1s linear;
-  }
-
+  
   /* ── Entête ───────────────────────────────────────────────────────────── */
   header {
     position: sticky; top: 0; z-index: 50;
-    backdrop-filter: blur(14px); background: color-mix(in srgb, var(--bg) 78%, transparent);
+ background: color-mix(in srgb, var(--bg) 78%, transparent);
     border-bottom: 1px solid transparent; transition: border-color .3s;
   }
   header.colle { border-bottom-color: var(--border); }
@@ -101,7 +88,7 @@
   .nav a:hover { color: var(--fg); }
   .theme {
     background: none; border: 1px solid var(--border); color: var(--fg-dim);
-    border-radius: 9px; width: 34px; height: 34px; cursor: pointer;
+    border-radius: 4px; width: 34px; height: 34px; cursor: pointer;
     display: grid; place-items: center;
   }
   .theme:hover { color: var(--fg); }
@@ -133,14 +120,7 @@
     transition-delay: var(--d, 0s);
   }
   body.charge .mot > span { transform: none; }
-
-  .grad-text {
-    background: var(--grad); background-size: 220% 220%;
-    -webkit-background-clip: text; background-clip: text; color: transparent;
-    animation: flux 11s ease-in-out infinite;
-  }
-  @keyframes flux { 0%,100% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } }
-
+  
   .chapo {
     font-size: clamp(1.05rem, 2.1vw, 1.3rem); color: var(--fg-dim);
     max-width: 62ch; margin: 0 0 34px;
@@ -153,12 +133,11 @@
   body.charge .actions { opacity: 1; }
 
   .btn {
-    display: inline-block; padding: 12px 22px; border-radius: 11px;
+    display: inline-block; padding: 12px 22px; border-radius: 4px;
     text-decoration: none; font-weight: 600; font-size: 15px;
     background: var(--grad); color: #0b0a0f; border: 1px solid transparent;
     transition: transform .25s var(--ease), box-shadow .25s;
   }
-  .btn:hover { transform: translateY(-2px); box-shadow: 0 12px 34px rgba(139,92,246,.34); }
   .btn-ghost { background: none; color: var(--fg); border-color: var(--border); }
   .btn-ghost:hover { box-shadow: none; border-color: var(--fg-faint); }
 
@@ -285,8 +264,7 @@
      et l'ensemble donne une descente plutôt que trois blocs qui clignotent. */
   .js .principe p { transform: translateY(30px); }
   .js .principe p.vu { transform: none; }
-
-
+  
   /* ── Plusieurs aperçus par acte ────────────────────────────────────────
      Ils s'empilent dans la même colonne de la grille : ajouter un frère à
      côté du texte casserait les deux colonnes sur toutes les tailles. */
@@ -336,7 +314,7 @@
   .sortie .manque { color: #FF6B5E; }
 
   /* ── Acustika : la coupe et la distance critique ─────────────────────── */
-  .coupe { position: relative; height: 96px; border-radius: 8px; overflow: hidden;
+  .coupe { position: relative; height: 96px; border-radius: 4px; overflow: hidden;
     background: linear-gradient(180deg, rgba(181,140,255,.16), rgba(109,74,224,.05)); }
   .coupe .sol { position: absolute; left: 0; right: 0; bottom: 0; height: 1px; background: var(--border); }
   .coupe .rayon {
@@ -372,8 +350,7 @@
   .feuille .t-dmx { color: #57D99A; }
 
   @media (max-width: 720px) { .grille-canaux { grid-template-columns: repeat(16, 1fr); } }
-
-
+  
   /* ── Le reste de la page, au même niveau que les logos de famille ───────
      Les logos tombaient du haut avec un rebond ; tout le reste se contentait
      d'une translation de trente pixels. La page paraissait donc s'animer une
@@ -400,10 +377,7 @@
   /* Le mot en dégradé du titre respire quand la section arrive : le dégradé
      balaie une fois, puis s'arrête. Une animation infinie sur un titre attire
      l'œil en permanence et fatigue. */
-  .js .principe h2.vu .grad-text,
-  .js .final h2.vu .grad-text {
-    animation: flux 3.2s var(--ease) 1;
-  }
+  .js .principe h2.vu 
 
   /* Les étiquettes d'application, sous le logo : elles montaient sans caractère.
      Un léger pivot les rattache au mouvement des aperçus, qui tombent tournés. */
@@ -439,11 +413,6 @@
   /* Le bouton final : il avait déjà son ressort. On lui ajoute une lueur qui
      passe une fois, pour dire que c'est là qu'on clique. */
   .js .final .reveal.vu .btn { animation: lueur 1.6s var(--ease) .35s 1; }
-  @keyframes lueur {
-    0%   { box-shadow: 0 0 0 0 rgba(255,255,255,.28); }
-    60%  { box-shadow: 0 0 0 14px rgba(255,255,255,0); }
-    100% { box-shadow: 0 0 0 0 rgba(255,255,255,0); }
-  }
 
   /* Le respect du réglage système l'emporte sur tout ce qui précède. */
   @media (prefers-reduced-motion: reduce) {
@@ -452,7 +421,7 @@
       transform: none !important;
       transition: none !important;
     }
-    .js .principe h2.vu .grad-text, .js .final h2.vu .grad-text,
+    .js .principe h2.vu .js .final h2.vu 
     .js .reveal.vu .etiquette img, .js .final .reveal.vu .btn {
       animation: none !important;
     }
@@ -463,7 +432,7 @@
   .apercu {
     background: var(--card); border: 1px solid var(--border);
     border-radius: var(--radius); padding: 20px;
-    box-shadow: 0 22px 60px rgba(0,0,0,.28);
+
     position: relative; overflow: hidden;
   }
   .apercu::after {
@@ -497,7 +466,7 @@
   .total b { color: #1BE7B6; }
 
   /* Scenika : un univers DMX de 512 canaux, et un chevauchement. */
-  .univers { display: flex; height: 42px; border-radius: 8px; overflow: hidden; border: 1px solid var(--border); }
+  .univers { display: flex; height: 42px; border-radius: 4px; overflow: hidden; border: 1px solid var(--border); }
   .univers span {
     display: block; height: 100%;
     transform: scaleX(0); transform-origin: left;
@@ -582,9 +551,6 @@
 </head>
 <body>
 
-<div class="aurora" aria-hidden="true"><i class="a1"></i><i class="a2"></i><i class="a3"></i></div>
-<div class="progres" id="progres" aria-hidden="true"></div>
-
 <header id="entete">
   <div class="wrap bar">
     <a class="brand" href="./">
@@ -617,7 +583,7 @@
       <span class="mot"><span style="--d:.12s">data</span></span>
       <span class="mot"><span style="--d:.19s">goes</span></span>
       <span class="mot"><span style="--d:.26s">absolutely</span></span>
-      <span class="mot"><span style="--d:.33s" class="grad-text">nowhere</span></span><span class="mot"><span style="--d:.33s">.</span></span>
+      <span class="mot"><span style="--d:.33s">nowhere</span></span><span class="mot"><span style="--d:.33s">.</span></span>
     </h1>
     <p class="chapo">
       Four programs for people doing precise work: invoicing, loading a truck,
@@ -645,7 +611,7 @@
           for a sole trader. Every division is guarded, every calculation lives in one place,
           and the numbering never skips.
         </p>
-        <p><a class="lien" href="https://resonlab.github.io/ohmnia/en/">See Ohmnia →</a></p>
+        <p><a class="lien" href="https://resonlab.github.io/ohmnia/en/">See Ohmnia</a></p>
       </div>
       <div class="apercu reveal" style="--d:.1s">
         <div class="apercu-titre">Invoice 2026-0148</div>
@@ -698,12 +664,11 @@
           Stock does not move when equipment leaves: what is out is calculated, otherwise one
           forgotten rental leaves a figure nothing ever puts right.
         </p>
-        <p><a class="lien" href="https://resonlab.github.io/scenika/en/">See Scenika →</a></p>
+        <p><a class="lien" href="https://resonlab.github.io/scenika/en/">See Scenika</a></p>
       </div>
     </div>
   </section>
-
-
+  
   <section class="acte" id="adresso">
     <div class="wrap">
       <div class="reveal">
@@ -719,7 +684,7 @@
           and when it is not constant, the page says so instead of inventing an average you would
           copy out.
         </p>
-        <p><a class="lien" href="https://resonlab.github.io/scenika/en/en/calculateur-dmx.html">Open Adresso →</a></p>
+        <p><a class="lien" href="https://resonlab.github.io/scenika/en/en/calculateur-dmx.html">Open Adresso</a></p>
       </div>
       <div class="apercus">
         <div class="apercu reveal" style="--d:.1s">
@@ -753,7 +718,7 @@
           The advice stays a proposal — the real room never matches the model,
           and the application says so instead of keeping quiet.
         </p>
-        <p><a class="lien" href="https://resonlab.github.io/acustika/en/">See Acustika →</a></p>
+        <p><a class="lien" href="https://resonlab.github.io/acustika/en/">See Acustika</a></p>
       </div>
       <div class="apercus">
       <div class="apercu reveal" style="--d:.1s">
@@ -817,14 +782,14 @@
           rack's range works perfectly on paper and lights random circuits on stage — Lumika
           compares the two in the same space, and says so before the rig.
         </p>
-        <p><a class="lien" href="https://github.com/ResonLab/lumika">See Lumika →</a></p>
+        <p><a class="lien" href="https://github.com/ResonLab/lumika">See Lumika</a></p>
       </div>
     </div>
   </section>
 
   <section class="principe" id="principe">
     <div class="wrap">
-      <h2 class="reveal">Nothing leaves your <span class="grad-text">computer</span>.</h2>
+      <h2 class="reveal">Nothing leaves your <span>computer</span>.</h2>
       <p class="reveal" style="--d:.08s">
         No account to create, no subscription to expire, no usage tracking. The only possible
         network access is the update check, and it is off by default.
@@ -951,14 +916,11 @@
   // Barre de progression et ombre de l'entête, sur un seul rAF : deux
   // écouteurs de défilement séparés feraient deux fois le travail.
   var entete = document.getElementById('entete');
-  var progres = document.getElementById('progres');
   var tic = false;
   function auDefilement() {
     if (tic) return;
     tic = true;
     requestAnimationFrame(function () {
-      var h = document.body.scrollHeight - window.innerHeight;
-      progres.style.width = (h > 0 ? (window.scrollY / h) * 100 : 0) + '%';
       entete.classList.toggle('colle', window.scrollY > 8);
       tic = false;
     });

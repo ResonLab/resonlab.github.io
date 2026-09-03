@@ -50,7 +50,7 @@ const TRADUCTIONS = [
           and when it is not constant, the page says so instead of inventing an average you would
           copy out.`
   ],
-  ['<a class="lien" href="https://resonlab.github.io/scenika/calculateur-dmx.html">Ouvrir Adresso →</a>', '<a class="lien" href="https://resonlab.github.io/scenika/en/calculateur-dmx.html">Open Adresso →</a>'],
+  ['<a class="lien" href="https://resonlab.github.io/scenika/calculateur-dmx.html">Ouvrir Adresso</a>', '<a class="lien" href="https://resonlab.github.io/scenika/en/calculateur-dmx.html">Open Adresso</a>'],
   ['<div class="apercu-titre">Univers 1 — carte des canaux</div>', '<div class="apercu-titre">Universe 1 — channel map</div>'],
   ['<div class="apercu-note">Ambre : occupé. Rouge : deux appareils sur le même canal.</div>', '<div class="apercu-note">Amber: taken. Red: two fixtures on the same channel.</div>'],
   ["<div class=\"apercu-titre\">Pas d'adressage</div>", '<div class="apercu-titre">Addressing step</div>'],
@@ -121,7 +121,7 @@ const TRADUCTIONS = [
   ['<span style="--d:.12s">données</span>', '<span style="--d:.12s">data</span>'],
   ['<span style="--d:.19s">ne</span>', '<span style="--d:.19s">goes</span>'],
   ['<span style="--d:.26s">partent</span>', '<span style="--d:.26s">absolutely</span>'],
-  ['<span style="--d:.33s" class="grad-text">nulle part</span>', '<span style="--d:.33s" class="grad-text">nowhere</span>'],
+  ['<span style="--d:.33s">nulle part</span>', '<span style="--d:.33s">nowhere</span>'],
   [
     `Quatre logiciels pour des gens qui font un travail précis : facturer, charger un camion,
       couvrir une salle, accrocher un plan de feu. Pas de compte. Pas d'abonnement.
@@ -150,7 +150,7 @@ const TRADUCTIONS = [
           for a sole trader. Every division is guarded, every calculation lives in one place,
           and the numbering never skips.`
   ],
-  ['>Voir Ohmnia →<', '>See Ohmnia →<'],
+  ['>Voir Ohmnia<', '>See Ohmnia<'],
   ['<div class="apercu-titre">Facture 2026-0148</div>', '<div class="apercu-titre">Invoice 2026-0148</div>'],
   ['<span>Dépannage sur site</span>', '<span>On-site repair</span>'],
   ['<span>Fourniture — carte relais</span>', '<span>Parts — relay board</span>'],
@@ -185,7 +185,7 @@ const TRADUCTIONS = [
           Stock does not move when equipment leaves: what is out is calculated, otherwise one
           forgotten rental leaves a figure nothing ever puts right.`
   ],
-  ['>Voir Scenika →<', '>See Scenika →<'],
+  ['>Voir Scenika<', '>See Scenika<'],
 
   // ─ Acustika ─
   [
@@ -208,7 +208,7 @@ const TRADUCTIONS = [
           The advice stays a proposal — the real room never matches the model,
           and the application says so instead of keeping quiet.`
   ],
-  ['>Voir Acustika →<', '>See Acustika →<'],
+  ['>Voir Acustika<', '>See Acustika<'],
   ['<div class="apercu-titre">Couverture à 1 kHz</div>', '<div class="apercu-titre">Coverage at 1 kHz</div>'],
   [
     "<div class=\"apercu-note\">L'écart sur toute la salle compte plus que le niveau au centre.</div>",
@@ -240,12 +240,12 @@ const TRADUCTIONS = [
           rack's range works perfectly on paper and lights random circuits on stage — Lumika
           compares the two in the same space, and says so before the rig.`
   ],
-  ['>Voir Lumika →<', '>See Lumika →<'],
+  ['>Voir Lumika<', '>See Lumika<'],
 
   // ─ Le principe ─
   [
-    '<h2 class="reveal">Rien ne sort de votre <span class="grad-text">ordinateur</span>.</h2>',
-    '<h2 class="reveal">Nothing leaves your <span class="grad-text">computer</span>.</h2>'
+    '<h2 class="reveal">Rien ne sort de votre <span>ordinateur</span>.</h2>',
+    '<h2 class="reveal">Nothing leaves your <span>computer</span>.</h2>'
   ],
   [
     `Pas de compte à créer, pas d'abonnement qui expire, pas de statistiques d'usage. Le seul
