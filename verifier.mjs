@@ -278,6 +278,100 @@ for (const chemin of ['index.html', 'en/index.html']) {
   }
 }
 
+/* ── 1 quater. La date « mis à jour » ne ment pas ─────────────────────────── */
+
+/**
+ * **La feuille de route porte une date, et elle doit valoir quelque chose.**
+ *
+ * Défaut réel, trouvé à la main le 15 août 2026 : la page annonçait « Ohmnia est
+ * en cours de traduction, écran par écran » et « la consultation mobile de
+ * Scenika sera une page servie par Nexika ». Les deux étaient livrés. La page
+ * affichait pourtant « MIS À JOUR LE 10 AOÛT » — le marqueur existait, personne
+ * ne le tenait, et **rien ne le regardait**.
+ *
+ * Aucune vérification ne pouvait voir la fausseté : ces phrases décrivent
+ * l'état d'*autres dépôts*, et celui-ci est publié seul. Le contrôle des deux
+ * langues, lui, les trouvait parfaitement alignées — elles mentaient des deux
+ * côtés.
+ *
+ * **Ce qui est vérifiable, c'est la cohérence entre la date et le fichier.** Si
+ * quelqu'un modifie la feuille de route sans toucher à sa date, la page se
+ * prétend plus ancienne qu'elle n'est, et c'est le signe qu'une affirmation a
+ * bougé sans être datée. Git le sait : on compare la date affichée à celle du
+ * dernier commit qui a touché le fichier.
+ *
+ * Ce n'est pas une vérification de vérité — elle ne saura jamais si « en cours »
+ * est encore exact. C'est une vérification d'**honnêteté du marqueur** : tant
+ * que la date suit les modifications, un lecteur peut juger de l'âge de ce
+ * qu'il lit. Une date périmée se dénonce elle-même ; une affirmation périmée,
+ * non.
+ */
+{
+  const MOIS = {
+    janvier: 1, février: 2, mars: 3, avril: 4, mai: 5, juin: 6, juillet: 7,
+    août: 8, septembre: 9, octobre: 10, novembre: 11, décembre: 12,
+    january: 1, february: 2, march: 3, april: 4, may: 5, june: 6, july: 7,
+    august: 8, september: 9, october: 10, november: 11, december: 12
+  }
+
+  const dateAffichee = (html) => {
+    const ligne = html.match(/<p class="etat-ligne">([^<]+)<\/p>/)
+    if (!ligne) return null
+    const m = ligne[1].match(/(\d{1,2})\s+([A-Za-zÀ-ÿ]+)\s+(\d{4})/)
+    if (!m) return null
+    const mois = MOIS[m[2].toLowerCase()]
+    if (!mois) return null
+    return `${m[3]}-${String(mois).padStart(2, '0')}-${String(Number(m[1])).padStart(2, '0')}`
+  }
+
+  const PAGES_DATEES = ['suite.html', 'en/roadmap.html']
+  const dates = PAGES_DATEES.map((f) => ({ fichier: f, date: dateAffichee(lireNormalise(f)) }))
+
+  for (const { fichier, date } of dates) {
+    if (!date) echec(`${fichier} : aucune date « mis à jour » lisible — le contrôle ne regarde rien`)
+  }
+
+  // Les deux langues datent la même feuille de route : elles ne peuvent pas
+  // avoir été revues à des jours différents.
+  if (dates.every((d) => d.date) && dates[0].date !== dates[1].date) {
+    echec(
+      `les deux feuilles de route n'affichent pas la même date — ` +
+        dates.map((d) => `${d.fichier} : ${d.date}`).join(' · ')
+    )
+  }
+
+  // La date doit couvrir la dernière modification du fichier. Sans git — une
+  // archive, un export — on le dit au lieu de faire semblant de vérifier.
+  let git = null
+  try {
+    git = (await import('node:child_process')).execFileSync
+  } catch {
+    git = null
+  }
+  for (const { fichier, date } of dates) {
+    if (!date || !git) continue
+    let dernierCommit = null
+    try {
+      dernierCommit = git('git', ['log', '-1', '--format=%cs', '--', fichier], {
+        cwd: RACINE,
+        encoding: 'utf-8'
+      }).trim()
+    } catch {
+      dernierCommit = null
+    }
+    if (!dernierCommit) {
+      console.log(`  (pas d'historique git pour ${fichier} : fraîcheur non vérifiée)`)
+      continue
+    }
+    if (date < dernierCommit) {
+      echec(
+        `${fichier} annonce « mis à jour le ${date} » alors que son dernier commit date du ` +
+          `${dernierCommit} — la page a changé sans que sa date suive`
+      )
+    }
+  }
+}
+
 /* ── 1 bis. La famille est au complet partout où on l'énumère ────────────── */
 
 /**

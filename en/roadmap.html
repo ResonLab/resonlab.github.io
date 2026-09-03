@@ -313,7 +313,7 @@
 
 <main>
   <section class="hero wrap">
-    <p class="etat-ligne">UPDATED 10 AUGUST 2026</p>
+    <p class="etat-ligne">UPDATED 15 AUGUST 2026</p>
     <h1>The <span class="grad-text">roadmap</span>.</h1>
     <p class="chapo">
       What is done, what is under way, and what will not be done. A roadmap that announces only
@@ -338,13 +338,16 @@
         <span class="num">SCENIKA</span>
         <h3>Inventory, rentals, power, DMX</h3>
         <p>The equipment inventory, rentals showing what did not come back, power split per circuit,
-        and the DMX calculator tied to the real inventory.</p>
+        and the DMX calculator tied to the real inventory. And now <strong>mobile
+        consultation</strong>: the inventory reads on a phone, standing in the store room, served by
+        Nexika on the local network.</p>
       </div>
       <div class="card reveal" style="--d:.12s">
         <span class="num">ACUSTIKA</span>
         <h3>Coverage, and advice</h3>
         <p>Freely drawn zones, rakes, a loudspeaker library, a coverage map, a section view, alignment
-        delays — and placement advice that explains why.</p>
+        delays — and placement advice that explains why. The plan pans and zooms, so you can go and
+        look at a detail up close.</p>
       </div>
       <div class="card reveal" style="--d:.18s">
         <span class="num">LUMIKA</span>
@@ -362,8 +365,9 @@
       <div class="card reveal" style="--d:.30s">
         <span class="num">EVERYWHERE</span>
         <h3>French and English</h3>
-        <p>All five websites, and the Scenika, Acustika and Lumika applications in full. Ohmnia is
-        under way, screen by screen.</p>
+        <p>All five websites and all four applications, in full. Ohmnia took the longest —
+        eighteen screens — and the last one needed a decision rather than work: the legal notices
+        printed on an invoice follow the country of issue, never the language of the interface.</p>
       </div>
       <div class="card reveal" style="--d:.36s">
         <span class="num">EVERYWHERE</span>
@@ -383,22 +387,18 @@
 
       <div class="cards">
         <div class="card reveal">
-          <span class="num">OHMNIA</span>
-          <h3>The English translation</h3>
-          <p>Navigation, the home screen, the inventory, clients and printed documents are translated.
-          The remaining screens are still French.</p>
-        </div>
-        <div class="card reveal" style="--d:.06s">
-          <span class="num">SCENIKA</span>
-          <h3>Mobile consultation</h3>
-          <p>An inventory gets checked standing in a store room, phone in hand. It will be a page served
-          by Nexika on the local network — the server now runs.</p>
-        </div>
-        <div class="card reveal" style="--d:.12s">
           <span class="num">ACUSTIKA</span>
           <h3>Loudspeaker data</h3>
           <p>Importing polar data as text works and derives the coverage angle per band. The
-          <strong>CLF</strong> format is still the goal — see below why it is not read yet.</p>
+          <strong>CLF</strong> format is still the goal. The electro-acoustic table of a real file is
+          now read with certainty; it is the directivity itself that still resists — see below why we
+          do not guess it.</p>
+        </div>
+        <div class="card reveal" style="--d:.06s">
+          <span class="num">EVERYWHERE</span>
+          <h3>The installers on real machines</h3>
+          <p>They are built automatically and pass every check. They have not yet been installed on a
+          large number of machines. That is stated in every release note, and on the download page.</p>
         </div>
       </div>
     </div>
@@ -429,7 +429,8 @@
         <h3>The CLF format, as long as it must be guessed</h3>
         <p>CLF is a binary format whose structure is not public. A reader that guessed would produce
         wrong directivity — hence <strong>wrong placements with the confidence of right ones</strong>.
-        Text already imports.</p>
+        Two plausible layouts were tried against real files; both fell to an independent
+        measurement. Text already imports.</p>
       </div>
       <div class="card reveal" style="--d:.18s">
         <span class="num">NOT HERE</span>
