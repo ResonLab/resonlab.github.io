@@ -126,7 +126,7 @@
 
   /* ─── boutons ────────────────────────────────────────────── */
   .btn {
-    position: relative; overflow: hidden;
+
     display: inline-flex; align-items: center; justify-content: center; gap: 9px;
     padding: 13px 22px; border-radius: 4px;
     background: var(--g, var(--grad)); color: #120b22;
@@ -135,13 +135,7 @@
     transition: transform .35s var(--ease), filter .35s var(--ease);
 
   }
-  .btn::before {
-    content: ''; position: absolute; top: 0; bottom: 0; left: -75%; width: 55%;
-    background: linear-gradient(100deg, transparent, rgba(255,255,255,.42), transparent);
-    transform: skewX(-18deg); transition: left .7s var(--ease);
-  }
   .btn:hover { text-decoration: none; filter: brightness(1.05); }
-  .btn:hover::before { left: 125%; }
   .btn:active { transform: translateY(0); }
   .btn-ghost { background: transparent; color: var(--fg); border: 1px solid var(--border); box-shadow: none; }
   .btn-ghost:hover { border-color: rgba(181,140,255,.5); box-shadow: none; }
@@ -171,7 +165,7 @@
 
   .apps { display: grid; grid-template-columns: repeat(2, 1fr); gap: 18px; }
   .app {
-    position: relative; overflow: hidden; display: flex; flex-direction: column;
+ display: flex; flex-direction: column;
     background: var(--card); border: 1px solid var(--border);
     border-radius: var(--radius); padding: 26px;
     transition: transform .45s var(--ease), border-color .45s var(--ease);
@@ -203,7 +197,7 @@
   .bande { background: var(--bg-2); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
   .cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
   .card {
-    position: relative; overflow: hidden;
+
     background: var(--card); border: 1px solid var(--border);
     border-radius: var(--radius); padding: 26px;
     transition: transform .45s var(--ease), border-color .45s var(--ease);
